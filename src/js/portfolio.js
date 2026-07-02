@@ -45,7 +45,10 @@ function render() {
   const grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
+  const filtersEl = document.getElementById('filters');
+
   if (projects.length === 0) {
+    if (filtersEl) filtersEl.style.display = 'none';
     grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon mono">◇</div>

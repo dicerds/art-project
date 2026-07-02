@@ -12,6 +12,7 @@
   --gold: #c5a572;
   --rule: rgba(26, 26, 26, 0.08);
   --rule-strong: rgba(26, 26, 26, 0.15);
+  --accent-dim: rgba(44, 62, 79, 0.3);
   --error: #d64545;
   --success: #45a049;
 }
@@ -61,6 +62,16 @@ button {
   cursor: pointer;
 }
 
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 ul, ol {
   list-style: none;
 }
@@ -85,6 +96,25 @@ ul, ol {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 16px;
+  z-index: 100;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 12px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
 }
 
 [data-reveal] {

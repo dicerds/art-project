@@ -70,7 +70,7 @@ if (form) {
       return;
     }
 
-    note.textContent = 'Thank you. Form submission system is being configured. Please use the contact channels below to reach us.';
+    note.textContent = 'Thank you. Form submission is being configured. Please use the alternative contact channels to reach us directly.';
     note.className = 'form-note mono info';
   });
 }

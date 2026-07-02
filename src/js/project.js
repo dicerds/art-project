@@ -76,9 +76,9 @@ function renderProject(p) {
             )
             .join('')}
         </div>
-        <button class="gallery-nav gallery-prev" id="galleryPrev">←</button>
-        <button class="gallery-nav gallery-next" id="galleryNext">→</button>
-        <div class="gallery-counter"><span id="galleryIndex">1</span> / <span id="galleryTotal">${p.gallery.filter((g) => g && g.image).length}</span></div>
+        <button class="gallery-nav gallery-prev" id="galleryPrev" aria-label="Previous image">←</button>
+        <button class="gallery-nav gallery-next" id="galleryNext" aria-label="Next image">→</button>
+        <div class="gallery-counter" aria-live="polite"><span id="galleryIndex">1</span> / <span id="galleryTotal">${p.gallery.filter((g) => g && g.image).length}</span></div>
       </div>
     </section>
   `
@@ -205,6 +205,22 @@ function initGallery() {
         current = (current - 1 + total) % total;
       }
       updateCarousel();
+    }
+  });
+
+  carousel.setAttribute('tabindex', '0');
+  carousel.setAttribute('role', 'region');
+  carousel.setAttribute('aria-label', 'Project gallery');
+
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      current = (current + 1) % total;
+      updateCarousel();
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft') {
+      current = (current - 1 + total) % total;
+      updateCarousel();
+      e.preventDefault();
     }
   });
 
