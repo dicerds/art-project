@@ -1,0 +1,128 @@
+:root {
+  --bg: #f8f7f5;
+  --bg-soft: #efefec;
+  --bg-card: #e8e6e2;
+  --bg-elevated: #ffffff;
+  --paper: #1a1a1a;
+  --paper-dim: #555555;
+  --paper-muted: #888888;
+  --accent: #2c3e4f;
+  --accent-light: #4a5f75;
+  --accent-hover: #1f2d3a;
+  --gold: #c5a572;
+  --rule: rgba(26, 26, 26, 0.08);
+  --rule-strong: rgba(26, 26, 26, 0.15);
+  --accent-dim: rgba(44, 62, 79, 0.3);
+  --error: #d64545;
+  --success: #45a049;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--paper);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-elevated);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+.display {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 16px;
+  z-index: 100;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 12px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1; transform: none; }
+}
