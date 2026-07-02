@@ -1,8 +1,3 @@
-/* ===================================================================
-   MERIDIAN — Three.js Background Scene
-   Wireframe architectural volumes + grid
-   =================================================================== */
-
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const canvas = document.getElementById('scene');
@@ -20,9 +15,6 @@ scene.add(structure);
 const lineColorAccent = new THREE.Color(0x7fa3c4);
 const lineColorPaper = new THREE.Color(0xece9e2);
 
-/**
- * Create a wireframe box volume.
- */
 function makeVolume(w, h, d, x, y, z, color, opacity) {
   const geo = new THREE.BoxGeometry(w, h, d);
   const edges = new THREE.EdgesGeometry(geo);
@@ -32,7 +24,6 @@ function makeVolume(w, h, d, x, y, z, color, opacity) {
   return line;
 }
 
-// Architectural volumes
 const volumes = [
   makeVolume(3.2, 1.2, 3.2, 0, -1.4, 0, lineColorPaper, 0.5),
   makeVolume(2.2, 1.6, 2.2, 0.6, -0.1, 0.3, lineColorAccent, 0.7),
@@ -41,16 +32,12 @@ const volumes = [
 ];
 volumes.forEach((v) => structure.add(v));
 
-// Ground grid
 const grid = new THREE.GridHelper(20, 20, 0x3a4a5c, 0x22262b);
 grid.position.y = -2;
 scene.add(grid);
 
 structure.rotation.y = 0.4;
 
-/**
- * Handle window resize.
- */
 function onResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -58,7 +45,6 @@ function onResize() {
 }
 window.addEventListener('resize', onResize);
 
-// Mouse tracking for parallax
 let mouseX = 0;
 let mouseY = 0;
 window.addEventListener('mousemove', (e) => {
@@ -69,9 +55,6 @@ window.addEventListener('mousemove', (e) => {
 const clock = new THREE.Clock();
 camera.baseX = 0;
 
-/**
- * Main render loop.
- */
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
@@ -86,13 +69,9 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-/**
- * Initialize Three.js scene and scroll-linked camera.
- */
 export function initScene() {
   animate();
 
-  // Camera moves on scroll through hero
   ScrollTrigger.create({
     trigger: '.hero',
     start: 'top top',
@@ -106,7 +85,6 @@ export function initScene() {
     },
   });
 
-  // Canvas fades out as works section scrolls
   ScrollTrigger.create({
     trigger: '#works',
     start: 'top center',

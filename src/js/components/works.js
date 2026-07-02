@@ -1,15 +1,8 @@
-/* ===================================================================
-   MERIDIAN — Works Grid & Filter Logic
-   =================================================================== */
-
 import { projects } from '../data/projects.js';
 
 const worksGrid = document.getElementById('worksGrid');
 const filtersEl = document.getElementById('filters');
 
-/**
- * Render all project cards into the works grid.
- */
 export function renderWorks() {
   worksGrid.innerHTML = projects
     .map(
@@ -27,18 +20,13 @@ export function renderWorks() {
   attachCardEvents();
 }
 
-/**
- * Attach tilt + click events to every work card.
- */
 function attachCardEvents() {
   document.querySelectorAll('.work-card').forEach((card) => {
-    // Click → open modal
     card.addEventListener('click', () => {
       const event = new CustomEvent('open-modal', { detail: card.dataset.id });
       window.dispatchEvent(event);
     });
 
-    // Mousemove → 3D tilt
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
@@ -52,22 +40,17 @@ function attachCardEvents() {
       });
     });
 
-    // Mouseleave → reset tilt
     card.addEventListener('mouseleave', () => {
       gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
     });
   });
 }
 
-/**
- * Initialize category filter buttons.
- */
 export function initFilters() {
   filtersEl.addEventListener('click', (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
 
-    // Toggle active state
     document.querySelectorAll('.filters button').forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
 

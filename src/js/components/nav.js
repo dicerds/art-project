@@ -1,11 +1,3 @@
-/* ===================================================================
-   MERIDIAN — Navigation
-   Smooth scroll for header nav links
-   =================================================================== */
-
-/**
- * Initialize smooth-scroll navigation.
- */
 export function initNav() {
   document.querySelectorAll('header nav a').forEach((a) => {
     a.addEventListener('click', (e) => {
