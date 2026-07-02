@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio — Studio Arsitektur</title>
+  <meta name="description" content="Portofolio proyek arsitektur yang telah kami rancang dan bangun.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="mark display">STUDIO</a>
+    <nav>
+      <a href="/services.html">Layanan</a>
+      <a href="/portfolio.html">Portofolio</a>
+      <a href="/about.html">Tentang</a>
+      <a href="/contact.html">Kontak</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <div class="mobile-nav">
+    <a href="/">Beranda</a>
+    <a href="/services.html">Layanan</a>
+    <a href="/portfolio.html">Portofolio</a>
+    <a href="/about.html">Tentang</a>
+    <a href="/contact.html">Kontak</a>
+  </div>
+
+  <main>
+    <section class="page-hero">
+      <div class="breadcrumb mono">
+        <a href="/">Beranda</a>
+        <span class="sep">/</span>
+        <span>Portofolio</span>
+      </div>
+      <div class="eyebrow mono">HASIL PEKERJAAN</div>
+      <h1 class="display">Portofolio<br>Proyek Terpilih</h1>
+      <p class="page-hero-sub">Kumpulan proyek yang telah dirancang dan diselesaikan — dikelompokkan berdasarkan jenis bangunan, gaya, dan skala untuk memudahkan penelusuran.</p>
+    </section>
+
+    <section class="page-section" id="portfolio">
+      <div class="portfolio-filters" id="filters">
+        <div class="filter-group">
+          <div class="filter-row">
+            <span class="filter-label mono">Kategori</span>
+            <div class="filter-bar" data-filter-key="category" id="filterCategory"></div>
+          </div>
+          <div class="filter-row">
+            <span class="filter-label mono">Gaya</span>
+            <div class="filter-bar" data-filter-key="style" id="filterStyle"></div>
+          </div>
+          <div class="filter-row">
+            <span class="filter-label mono">Skala</span>
+            <div class="filter-bar" data-filter-key="scale" id="filterScale"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-col">
+        <span class="footer-title mono">Studio Arsitektur</span>
+        <span class="mono">Desain &amp; Perencanaan Ruang</span>
+      </div>
+      <div class="footer-col">
+        <span class="footer-title mono">Navigasi</span>
+        <a href="/services.html" class="mono">Layanan</a>
+        <a href="/portfolio.html" class="mono">Portofolio</a>
+        <a href="/about.html" class="mono">Tentang</a>
+        <a href="/contact.html" class="mono">Kontak</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-title mono">Terhubung</span>
+        <a href="/contact.html" class="mono">Kontak Studio</a>
+      </div>
+      <div class="footer-bottom">
+        <span class="mono">© Studio Arsitektur</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="module" src="/src/js/portfolio.js"></script>
+</body>
+</html>

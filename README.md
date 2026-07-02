@@ -1,48 +1,61 @@
-# MERIDIAN — Architecture Studio
+# Studio Arsitektur — Website Portofolio
 
-Portfolio website template untuk studio arsitektur. Dibangun dengan HTML/CSS/JS murni, Three.js (wireframe 3D), dan GSAP (animasi scroll).
+Website portofolio arsitektur profesional. Dibangun dengan HTML/CSS/JS murni, Three.js (wireframe 3D untuk hero), dan GSAP (animasi scroll).
 
 ## Struktur Proyek
 
 ```
 art-project/
-├── index.html                  # Halaman utama (HTML struktur)
-├── vite.config.js              # Konfigurasi Vite
+├── index.html                 # Beranda
+├── services.html              # Layanan (5 jenis arsitektur)
+├── portfolio.html             # Grid portofolio dengan filter
+├── project.html               # Detail proyek (dinamis via ?slug=)
+├── about.html                 # Tentang studio
+├── contact.html               # Formulir kontak
+├── vite.config.js
 ├── package.json
 ├── public/
 │   └── favicon.svg
 └── src/
     ├── styles/
-    │   └── main.css            # Seluruh stylesheet
+    │   ├── main.css           # Entry (import base/layout/components/pages)
+    │   ├── base.css
+    │   ├── layout.css
+    │   ├── components.css
+    │   └── pages.css
     └── js/
-        ├── main.js             # Entry point — bootstrap semua modul
-        ├── scene.js            # Three.js wireframe background
-        ├── animations.js       # GSAP reveal & hero animations
-        ├── data/
-        │   └── projects.js     # Data proyek portfolio
-        └── components/
-            ├── works.js        # Grid karya & filter kategori
-            ├── modal.js        # Modal detail proyek
-            └── nav.js          # Navigasi smooth-scroll
+        ├── shared.js          # Header + reveal animations
+        ├── home.js
+        ├── services.js
+        ├── portfolio.js
+        ├── project.js
+        ├── about.js
+        ├── contact.js
+        └── data/
+            ├── services.js    # Data 5 jenis layanan arsitektur
+            ├── projects.js    # Data proyek portofolio
+            └── testimonials.js
 ```
 
-## Cara Menjalankan
+## Menjalankan
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Cara Kustomisasi
+## Kustomisasi Isi
 
-1. **Data proyek** — edit `src/js/data/projects.js`
-2. **Profil & biografi** — edit bagian `#profile` di `index.html`
-3. **Warna & tipografi** — edit CSS variables di `src/styles/main.css`
-4. **Foto** — ganti placeholder `[ FOTO ]` dengan tag `<img>` asli
+1. **Data proyek portofolio** — edit `src/js/data/projects.js`
+2. **Kontak & channel** — edit `src/js/contact.js`
+3. **Filosofi & proses kerja** — edit `about.html` dan `src/js/about.js`
+4. **Warna & tipografi** — edit CSS variables di `src/styles/base.css`
 
-## Teknologi
+## Navigasi
 
-- [Vite](https://vitejs.dev/) — Dev server & bundler
-- [Three.js](https://threejs.org/) — Wireframe 3D background
-- [GSAP](https://gsap.com/) + ScrollTrigger — Animasi entrance & scroll
-- [Google Fonts](https://fonts.google.com/) — Fraunces, Space Grotesk, JetBrains Mono
+- Beranda → teaser 5 jenis layanan + karya terpilih + pendekatan
+- Layanan → detail setiap jenis arsitektur (residensial, komersial, hospitality, institusional, interior)
+- Portofolio → grid + filter (kategori/gaya/skala) — mendukung URL params
+- Detail Proyek → `project.html?slug=<slug>` dengan fallback empty-state
+- Tentang → filosofi, proses kerja, lingkup layanan
+- Kontak → formulir + FAQ + jam kerja

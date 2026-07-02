@@ -1,49 +1,64 @@
 import { initHeader, initRevealAnimations } from './shared.js';
 import { getFeaturedProjects, CATEGORIES } from './data/projects.js';
-import { testimonials } from './data/testimonials.js';
+import { services } from './data/services.js';
 
 initHeader();
 
+const servicesGrid = document.getElementById('servicesGrid');
+if (servicesGrid) {
+  servicesGrid.innerHTML = services
+    .map(
+      (s) => `
+    <a href="/services.html#${s.slug}" class="service-card" data-reveal>
+      <span class="service-num mono">N.${s.number}</span>
+      <h3 class="display">${s.title}</h3>
+      <p class="service-tagline mono">${s.tagline}</p>
+      <p class="service-summary">${s.summary}</p>
+      <span class="service-cta mono">Pelajari →</span>
+    </a>
+  `
+    )
+    .join('');
+}
+
+const featuredGrid = document.getElementById('featuredGrid');
 const featured = getFeaturedProjects();
 
-document.getElementById('featuredGrid').innerHTML = featured
-  .map(
-    (p, i) => `
-  <a href="/project.html?slug=${p.slug}" class="project-card" data-reveal>
-    <span class="card-num mono">N.0${i + 1}</span>
-    <div class="card-image placeholder-img">
-      <span>[ PROJECT PHOTO ]</span>
-    </div>
-    <h3 class="display">${p.title}</h3>
-    <div class="card-meta">
-      <span>${CATEGORIES[p.primaryCategory]}</span>
-      <span>${p.year}</span>
-    </div>
-    <div class="card-tags">
-      ${p.styles.map((s) => `<span class="tag">${s.replace('-', ' ')}</span>`).join('')}
-    </div>
-    <div class="frame"></div>
-  </a>
-`
-  )
-  .join('');
-
-document.getElementById('testimonialSlider').innerHTML = testimonials
-  .map(
-    (t) => `
-  <div class="testimonial-card" data-reveal>
-    <blockquote>${t.quote}</blockquote>
-    <div class="testimonial-author">
-      <strong>${t.name}</strong>
-      ${t.title ? t.title : ''}
-    </div>
-    <a href="/project.html?slug=${t.projectSlug}" class="testimonial-project mono">
-      ${t.project} →
-    </a>
-  </div>
-`
-  )
-  .join('');
+if (featuredGrid) {
+  if (featured.length === 0) {
+    featuredGrid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon mono">◇</div>
+        <h3 class="display">Portofolio dalam Persiapan</h3>
+        <p>Dokumentasi proyek sedang disusun. Sementara ini, Anda dapat mempelajari layanan kami atau menghubungi studio langsung.</p>
+        <div class="empty-state-actions">
+          <a href="/services.html" class="btn-outline mono">Lihat Layanan</a>
+          <a href="/contact.html" class="btn-link mono">Hubungi Studio →</a>
+        </div>
+      </div>
+    `;
+  } else {
+    featuredGrid.innerHTML = featured
+      .map(
+        (p, i) => `
+      <a href="/project.html?slug=${p.slug}" class="project-card" data-reveal>
+        <span class="card-num mono">N.0${i + 1}</span>
+        <div class="card-image placeholder-img">
+          <span class="corner tl"></span>
+          <span class="corner br"></span>
+        </div>
+        <h3 class="display">${p.title}</h3>
+        <div class="card-meta">
+          <span>${CATEGORIES[p.primaryCategory]}</span>
+          <span>${p.year}</span>
+        </div>
+        <div class="frame"></div>
+      </a>
+    `
+      )
+      .join('');
+  }
+}
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canvas = document.getElementById('scene');
@@ -123,7 +138,7 @@ if (canvas && typeof THREE !== 'undefined') {
     });
 
     ScrollTrigger.create({
-      trigger: '.home-featured',
+      trigger: '.home-services',
       start: 'top center',
       end: 'bottom top',
       onUpdate: (self) => {
@@ -139,7 +154,7 @@ if (typeof gsap !== 'undefined') {
     .from('.hero h1 span', { yPercent: 120, duration: 1.1, stagger: 0.12 }, 0.2)
     .from('.hero .eyebrow', { opacity: 0, y: 12, duration: 0.8 }, 0.1)
     .from('.hero .hero-sub', { opacity: 0, y: 12, duration: 0.8 }, 0.5)
-    .from('.hero .hero-stats', { opacity: 0, y: 12, duration: 0.8 }, 0.7)
+    .from('.hero .hero-actions', { opacity: 0, y: 12, duration: 0.8 }, 0.7)
     .from('.site-header', { opacity: 0, y: -16, duration: 0.8 }, 0.1);
 
   initRevealAnimations();
