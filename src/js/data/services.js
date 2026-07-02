@@ -1,4 +1,6 @@
-export const services = [
+import { supabase } from '../cms/supabase.js';
+
+export const defaultServices = [
   {
     slug: 'residential',
     number: '01',
@@ -125,6 +127,25 @@ export const services = [
     styles: ['modern-minimalist', 'industrial'],
   },
 ];
+
+export const services = defaultServices.map((s) => ({ ...s }));
+
+export async function loadServices() {
+  try {
+    const { data, error } = await supabase
+      .from('services')
+      .select('slug,data,sort_order')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    if (data && data.length) {
+      services.length = 0;
+      data.forEach((row) => services.push({ slug: row.slug, ...(row.data || {}) }));
+    }
+  } catch (e) {
+    console.warn('[cms] loadServices fallback to defaults:', e.message);
+  }
+  return services;
+}
 
 export function getServiceBySlug(slug) {
   return services.find((s) => s.slug === slug);

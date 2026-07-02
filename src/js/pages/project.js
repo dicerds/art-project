@@ -1,5 +1,6 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
-import { getProjectBySlug, getProjectById, CATEGORIES, STYLES } from '../data/projects.js';
+import { getProjectBySlug, getProjectById, CATEGORIES, STYLES, loadProjects } from '../data/projects.js';
+import { mediaUrl } from '../cms/supabase.js';
 
 initHeader();
 
@@ -7,15 +8,27 @@ const url = new URL(window.location.href);
 const slug = url.searchParams.get('slug');
 const content = document.getElementById('projectContent');
 
+function setBreadcrumb(label) {
+  const bc = document.getElementById('breadcrumb');
+  if (!bc) return;
+  bc.innerHTML = `
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <a href="/portfolio/">Portfolio</a>
+    <span class="sep">/</span>
+    <span aria-current="page">${label}</span>`;
+}
+
 function renderNotFound() {
+  setBreadcrumb('Project Not Found');
   content.innerHTML = `
     <div class="empty-state">
       <div class="empty-state-icon mono">◇</div>
       <h1 class="display">Project Not Found</h1>
       <p>The project you're looking for is not available. Please check the URL or return to the portfolio.</p>
       <div class="empty-state-actions">
-        <a href="/portfolio.html" class="btn-outline mono">← Back to Portfolio</a>
-        <a href="/contact.html" class="btn-link mono">Get In Touch →</a>
+        <a href="/portfolio/" class="btn-outline mono">← Back to Portfolio</a>
+        <a href="/contact/" class="btn-link mono">Get In Touch →</a>
       </div>
     </div>
   `;
@@ -35,7 +48,7 @@ function relatedCard(id) {
   const rp = getProjectById(id);
   if (!rp) return '';
   return `
-    <a href="/project.html?slug=${rp.slug}" class="project-card" data-reveal>
+    <a href="/project/?slug=${rp.slug}" class="project-card" data-reveal>
       <div class="card-image placeholder-img">
         <span class="corner tl"></span>
         <span class="corner br"></span>
@@ -52,6 +65,7 @@ function relatedCard(id) {
 
 function renderProject(p) {
   document.title = `${p.title} — ARCHITEKTA`;
+  setBreadcrumb(p.title);
 
   const styleTags = (p.styles || [])
     .map((s) => `<span class="tag">${STYLES[s] || s}</span>`)
@@ -69,7 +83,7 @@ function renderProject(p) {
             .map(
               (g, i) => `
             <div class="gallery-slide" data-slide="${i}">
-              <img src="${g.image}" alt="${g.caption || `${p.title} - Image ${i + 1}`}">
+              <img src="${mediaUrl(g.image)}" alt="${g.caption || `${p.title} - Image ${i + 1}`}">
               <div class="gallery-caption">${g.caption || ''}</div>
             </div>
           `
@@ -89,7 +103,7 @@ function renderProject(p) {
     <section class="detail-floorplan" data-reveal>
       <h2>Floor Plan</h2>
       <div class="floorplan-image">
-        <img src="${p.floorPlan}" alt="Floor plan for ${p.title}">
+        <img src="${mediaUrl(p.floorPlan)}" alt="Floor plan for ${p.title}">
       </div>
     </section>
   `
@@ -112,7 +126,7 @@ function renderProject(p) {
 
   content.innerHTML = `
     ${p.heroImage
-      ? `<div class="detail-hero-image"><img src="${p.heroImage}" alt="${p.title}"></div>`
+      ? `<div class="detail-hero-image"><img src="${mediaUrl(p.heroImage)}" alt="${p.title}"></div>`
       : `<div class="detail-hero-image placeholder-img">
           <span class="corner tl"></span>
           <span class="corner br"></span>
@@ -151,8 +165,8 @@ function renderProject(p) {
     ${relatedSection}
 
     <div class="detail-cta" data-reveal>
-      <a href="/portfolio.html" class="btn-outline mono">← All Projects</a>
-      <a href="/contact.html" class="btn-primary mono">Discuss Similar Project</a>
+      <a href="/portfolio/" class="btn-outline mono">← All Projects</a>
+      <a href="/contact/" class="btn-primary mono">Discuss Similar Project</a>
     </div>
   `;
 
@@ -227,12 +241,14 @@ function initGallery() {
   updateCarousel();
 }
 
-if (!slug) {
-  renderNotFound();
-} else {
-  const p = getProjectBySlug(slug);
-  if (!p) renderNotFound();
-  else renderProject(p);
-}
-
-initRevealAnimations();
+(async () => {
+  await loadProjects();
+  if (!slug) {
+    renderNotFound();
+  } else {
+    const p = getProjectBySlug(slug);
+    if (!p) renderNotFound();
+    else renderProject(p);
+  }
+  initRevealAnimations();
+})();

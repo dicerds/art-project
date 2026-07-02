@@ -1,9 +1,6 @@
 import { CATEGORIES } from '../data/projects.js';
+import { mediaUrl } from '../cms/supabase.js';
 
-// Shared design lightbox: shows a project's 5 design drawings
-// (Maket, Perspektif, Tampak, Denah, Site Plan) one at a time,
-// navigable only by slide — pointer drag, trackpad swipe, and arrow keys.
-// Keeps Prev/Next Project navigation and a "View Full Design" link.
 export function createDesignLightbox() {
   if (!document.getElementById('featuredLightbox')) {
     document.body.insertAdjacentHTML(
@@ -32,15 +29,17 @@ export function createDesignLightbox() {
   let onCloseCb = null;
 
   function designSlide(d, i) {
+    const media = d.image
+      ? `<img class="fl-photo" src="${mediaUrl(d.image)}" alt="${d.label || ''}" draggable="false">`
+      : `<span class="corner tl"></span><span class="corner br"></span>`;
     return `
       <div class="fl-slide" data-slide="${i}">
-        <div class="fl-image black-img">
-          <span class="corner tl"></span>
-          <span class="corner br"></span>
-          <span class="fl-tag mono">${String(i + 1).padStart(2, '0')} · ${d.label}</span>
+        <div class="fl-image${d.image ? ' has-photo' : ' black-img'}">
+          ${media}
+          <span class="fl-tag mono">${String(i + 1).padStart(2, '0')} · ${d.label || ''}</span>
         </div>
         <div class="fl-slide-caption">
-          <h4 class="display">${d.label}</h4>
+          <h4 class="display">${d.label || ''}</h4>
           <p>${d.caption || ''}</p>
         </div>
       </div>`;
@@ -73,8 +72,6 @@ export function createDesignLightbox() {
     imgIndex = 0;
     const designs = Array.isArray(p.designs) ? p.designs : [];
     imgCount = designs.length;
-    const fullUrl = p.fullDesignUrl || 'https://www.google.com';
-
     contentEl.innerHTML = `
       <div class="fl-header">
         <div>
@@ -92,7 +89,6 @@ export function createDesignLightbox() {
           </div>
         </div>
         <div class="fl-stage-foot">
-          <span class="fl-hint mono">Swipe · trackpad · ← → to browse designs</span>
           <span class="fl-counter mono" id="flCounter"></span>
         </div>
         <div class="fl-dots" id="flDots" role="tablist" aria-label="Design drawings"></div>
@@ -103,7 +99,7 @@ export function createDesignLightbox() {
           <button type="button" class="btn-outline mono" data-fl-prev>← Prev Project</button>
           <button type="button" class="btn-outline mono" data-fl-next>Next Project →</button>
         </div>
-        <a class="btn-primary mono" href="${fullUrl}" target="_blank" rel="noopener noreferrer" data-fl-full>View Full Design →</a>
+        <a class="btn-primary mono" href="/project/?slug=${encodeURIComponent(p.slug)}" data-fl-full>View Full Project →</a>
       </div>
     `;
 
@@ -164,7 +160,6 @@ export function createDesignLightbox() {
     flViewport.addEventListener('pointercancel', endDrag);
     flViewport.addEventListener('pointerleave', endDrag);
 
-    // Trackpad two-finger horizontal swipe
     let wheelLock = false;
     flViewport.addEventListener(
       'wheel',
@@ -186,9 +181,10 @@ export function createDesignLightbox() {
   function open(projects, index, opts = {}) {
     list = projects || [];
     onCloseCb = opts.onClose || null;
-    renderLightbox(index || 0);
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    renderLightbox(index || 0);
+    requestAnimationFrame(() => applyImg(false));
     closeBtn.focus();
   }
 

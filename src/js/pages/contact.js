@@ -1,6 +1,8 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
+import { initFaq } from '../components/faq.js';
 
 initHeader();
+initFaq();
 
 const channels = [
   { label: 'Email', value: '', placeholder: 'Coming Soon' },

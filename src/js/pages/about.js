@@ -1,7 +1,9 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
-import { skills, languages, certifications, experience, education, interests } from '../data/about.js';
+import { skills, languages, certifications, experience, education, interests, loadAbout } from '../data/about.js';
 
 initHeader();
+
+await loadAbout();
 
 function skillItem(s) {
   const note = s.note ? `<span class="skill-note mono">${s.note}</span>` : '';
@@ -10,10 +12,11 @@ function skillItem(s) {
     : s.note
       ? `<span class="cert-link cert-link-pending mono">View Certificate →</span>`
       : '';
+  const level = s.level || '';
   return `
     <div class="skill-item">
-      <span class="skill-name">${s.name}${note}${cert}</span>
-      <span class="skill-level" data-level="${s.level.toLowerCase()}">${s.level}</span>
+      <span class="skill-name">${s.name || ''}${note}${cert}</span>
+      <span class="skill-level" data-level="${level.toLowerCase()}">${level}</span>
     </div>
   `;
 }

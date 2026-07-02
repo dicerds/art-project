@@ -1,5 +1,6 @@
 .hero {
   height: 100vh;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -47,6 +48,8 @@
   font-size: 15px;
   line-height: 1.7;
   color: var(--paper-dim);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .hero .hero-stats {
@@ -92,7 +95,36 @@
   margin-top: 40px;
 }
 
-/* ---- Featured carousel ---- */
+.error-page {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 5vw 80px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.error-page .error-code {
+  font-size: clamp(90px, 20vw, 200px);
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.12;
+  margin-bottom: -12px;
+}
+.error-page .eyebrow { margin-bottom: 14px; }
+.error-page h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin-bottom: 20px; }
+.error-page .error-text { color: var(--paper-dim); font-size: 1.05rem; line-height: 1.8; max-width: 560px; }
+.error-page .error-text-en { color: var(--paper-muted); font-size: 0.82rem; margin-top: 8px; }
+.error-page .error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 36px;
+}
+
 .featured-carousel {
   position: relative;
   padding: 0 8px;
@@ -105,7 +137,10 @@
 
 .featured-viewport {
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
 }
+.featured-viewport:active { cursor: grabbing; }
 
 .featured-track {
   display: flex;
@@ -116,6 +151,7 @@
 
 .featured-card {
   flex: 0 0 calc((100% - 40px) / 3);
+  min-width: 0;
   text-align: left;
   background: var(--bg);
   border: 1px solid var(--rule);
@@ -167,6 +203,14 @@
   color: var(--bg);
 }
 
+.carousel-nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+  background: var(--bg-elevated);
+  border-color: var(--rule);
+  color: var(--paper);
+}
+
 .carousel-prev {
   left: -10px;
 }
@@ -175,31 +219,6 @@
   right: -10px;
 }
 
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 28px;
-}
-
-.carousel-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1px solid var(--rule-strong);
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-}
-
-.carousel-dot.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.25);
-}
-
-/* ---- Featured lightbox panels ---- */
 .featured-lightbox-content {
   background: var(--bg-elevated);
   border: 1px solid var(--rule-strong);
@@ -247,7 +266,6 @@
   white-space: nowrap;
 }
 
-/* Inner design carousel (Maket, Perspektif, Tampak, Denah, Site Plan) */
 .fl-stage {
   margin-top: 4px;
 }
@@ -303,6 +321,17 @@
   overflow: hidden;
 }
 
+.fl-image.has-photo {
+  background: #0d0d0d;
+}
+
+.fl-image .fl-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 .fl-image .corner {
   position: absolute;
   width: 14px;
@@ -325,17 +354,10 @@
 
 .fl-stage-foot {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 16px;
   margin-top: 16px;
-}
-
-.fl-hint {
-  font-size: 10px;
-  color: var(--paper-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 
 .fl-counter {
@@ -385,7 +407,6 @@
   flex-wrap: wrap;
 }
 
-/* ---- Section dividers ---- */
 .section-divider {
   display: flex;
   align-items: center;
@@ -487,6 +508,7 @@
   gap: 16px;
   justify-content: center;
   margin-top: 36px;
+  flex-wrap: wrap;
 }
 
 .page-hero {
@@ -498,6 +520,8 @@
   font-size: clamp(2.2rem, 5vw, 4rem);
   font-weight: 300;
   line-height: 1.1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .page-hero .page-hero-sub {
@@ -506,6 +530,8 @@
   color: var(--paper-dim);
   max-width: 560px;
   line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .portfolio-filters {
@@ -513,49 +539,10 @@
 }
 
 .portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-  background: var(--rule);
-}
-
-.portfolio-grid.is-carousel {
-  display: flex;
-  background: none;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scroll-behavior: smooth;
-  cursor: grab;
-  padding-bottom: 16px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  touch-action: pan-y;
-  user-select: none;
-}
-
-.portfolio-grid.is-carousel::-webkit-scrollbar {
-  display: none;
-}
-
-.portfolio-grid.is-carousel.dragging {
-  cursor: grabbing;
-  scroll-behavior: auto;
-}
-
-.portfolio-grid.is-carousel .project-card {
-  flex: 0 0 min(420px, 82vw);
-  scroll-snap-align: start;
-  border: 1px solid var(--rule);
-  -webkit-user-drag: none;
-}
-
-.portfolio-grid.is-carousel .project-card img {
-  pointer-events: none;
+  display: block;
 }
 
 .portfolio-empty {
-  grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
   color: var(--paper-dim);
@@ -664,6 +651,7 @@
   display: grid;
   grid-template-columns: 0.7fr 1fr;
   gap: 60px;
+  overflow: hidden;
 }
 
 .about-photo {
@@ -777,13 +765,6 @@
   border-top: 1px solid var(--rule);
 }
 
-.profile-action-note {
-  font-size: 11px;
-  color: var(--paper-muted);
-  letter-spacing: 0.04em;
-}
-
-/* ---- About timeline (experience & education) ---- */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -839,7 +820,6 @@
   margin-top: 16px;
 }
 
-/* ---- About interests ---- */
 .interests-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -875,6 +855,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
+  overflow: hidden;
 }
 
 .contact-info h2 {
@@ -941,28 +922,56 @@
   .home-testimonials .testimonial-slider { grid-template-columns: 1fr; }
   .featured-lightbox-content { padding: 28px; }
   .home-about-mini { grid-template-columns: 1fr; }
-  .about-profile { grid-template-columns: 1fr; }
+  .about-profile { grid-template-columns: 1fr; gap: 32px; }
+  .about-photo { max-height: 360px; }
   .interests-grid { grid-template-columns: repeat(2, 1fr); }
   .timeline-item { grid-template-columns: 1fr; gap: 10px; }
   .timeline-item .ti-period { padding-top: 0; }
-  .contact-layout { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
   .detail-gallery { grid-template-columns: repeat(2, 1fr); }
   .detail-related .related-grid { grid-template-columns: 1fr; }
-  .portfolio-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .page-hero { padding: 16vh 5vw 6vh; }
+  .home-cta { padding: 10vh 5vw; }
+  .home-cta .cta-actions { gap: 12px; }
 }
 
 @media (max-width: 680px) {
   .featured-card { flex: 0 0 100%; }
   .carousel-prev { left: -2px; }
   .carousel-next { right: -2px; }
-  .fl-footer { flex-direction: column; }
-  .fl-footer .btn-outline { justify-content: center; }
+  .carousel-nav { width: 38px; height: 38px; font-size: 16px; }
+  .fl-footer { flex-direction: column; gap: 12px; }
+  .fl-footer .btn-outline { justify-content: center; width: 100%; }
+  .fl-footer .btn-primary { justify-content: center; width: 100%; text-align: center; }
+  .fl-projnav { width: 100%; }
+  .fl-projnav .btn-outline { flex: 1; justify-content: center; }
+  .featured-lightbox-content { padding: 20px 16px; }
+  .fl-header { flex-direction: column; gap: 12px; }
+  .fl-header h3 { font-size: 1.4rem; }
 }
 
 @media (max-width: 480px) {
   .hero h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+  .hero .hero-sub { font-size: 14px; }
   .home-cta h2 { font-size: 1.8rem; }
-  .home-cta .cta-actions { flex-direction: column; align-items: center; }
+  .home-cta .cta-actions { flex-direction: column; align-items: stretch; }
+  .home-cta .cta-actions .btn-primary,
+  .home-cta .cta-actions .btn-outline { justify-content: center; text-align: center; }
   .detail-gallery { grid-template-columns: 1fr; }
   .interests-grid { grid-template-columns: 1fr; }
+  .page-hero h1 { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  .page-hero .page-hero-sub { font-size: 14px; }
+  .about-copy h2 { font-size: 1.6rem; }
+  .about-copy .philosophy { font-size: 0.9rem; }
+  .stat-item .stat-number { font-size: 2rem; }
+  .credential-item { font-size: 13px; }
+  .profile-actions { flex-direction: column; align-items: stretch; }
+  .profile-actions .btn-primary { text-align: center; justify-content: center; }
+  .contact-info h2 { font-size: 1.4rem; }
+  .contact-side h2 { font-size: 1.3rem; }
+  .detail-header { flex-direction: column; gap: 16px; }
+  .detail-concept h2 { font-size: 1.2rem; }
 }

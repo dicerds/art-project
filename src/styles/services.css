@@ -92,6 +92,8 @@
   margin-top: 32px;
   padding-top: 24px;
   border-top: 1px solid var(--rule);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .services-anchor-nav a {
@@ -489,14 +491,27 @@
 }
 
 .contact-faq summary::after {
-  content: '+';
-  color: var(--accent);
-  font-size: 18px;
-  transition: transform 0.2s ease;
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background-image:
+    linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: center, center;
+  background-size: 100% 2px, 2px 100%;
+  transition: background-size 0.28s ease, transform 0.28s ease;
 }
 
 .contact-faq details[open] summary::after {
-  content: '−';
+  background-size: 100% 2px, 2px 0%;
+  transform: rotate(180deg);
+}
+
+.contact-faq .faq-body {
+  overflow: hidden;
+  transition: height 0.28s ease;
 }
 
 .contact-faq details p {
@@ -549,6 +564,12 @@
   .philosophy-columns { grid-template-columns: 1fr; }
   .scope-grid { grid-template-columns: 1fr; }
   .expertise-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 760px) {
+  .service-card { flex-basis: 100%; }
+  .services-anchor-nav { gap: 4px; }
+  .services-anchor-nav a { padding: 6px 10px; font-size: 10px; }
 }
 
 .expertise-grid {
@@ -800,11 +821,18 @@
   .approach-grid { grid-template-columns: 1fr; }
   .service-card { flex-basis: 100%; }
   .service-detail-head { flex-direction: column; gap: 8px; }
-  .service-detail-head .service-num { min-width: 0; }
+  .service-detail-head .service-num { min-width: 0; font-size: 2rem; }
   .detail-cta { flex-direction: column; align-items: stretch; }
+  .detail-cta .btn-outline,
+  .detail-cta .btn-primary { text-align: center; justify-content: center; }
   .gallery-nav { width: 36px; height: 36px; font-size: 16px; }
   .gallery-prev { left: 8px; }
   .gallery-next { right: 8px; }
   .cert-item { flex-direction: column; align-items: flex-start; gap: 12px; }
   .cert-action { width: 100%; justify-content: space-between; }
+  .service-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+  .service-footer .btn-link,
+  .service-footer .btn-outline { text-align: center; justify-content: center; }
+  .service-summary-large { font-size: 1rem; }
+  .skill-item { flex-direction: column; align-items: flex-start; gap: 8px; }
 }

@@ -1,4 +1,6 @@
-export const projects = [
+import { supabase } from '../cms/supabase.js';
+
+export const defaultProjects = [
   {
     slug: 'meridian-residence',
     title: 'Meridian Residence',
@@ -8,7 +10,6 @@ export const projects = [
     year: '2024',
     featured: true,
     location: 'Bandung, West Java',
-    fullDesignUrl: 'https://www.google.com',
     designs: [
       { label: 'Desain Maket', caption: '1:100 study model in matte black board, testing the stacked volumes and how the cantilever shades the ground-level terrace.' },
       { label: 'Perspektif Bangunan', caption: 'Outdoor and indoor perspectives: the street approach and the double-height living void seen from the stair.' },
@@ -26,7 +27,6 @@ export const projects = [
     year: '2023',
     featured: true,
     location: 'Surabaya, East Java',
-    fullDesignUrl: 'https://www.google.com',
     designs: [
       { label: 'Desain Maket', caption: '1:200 massing model in black acrylic articulating the circulation core and the setback rhythm of the facade.' },
       { label: 'Perspektif Bangunan', caption: 'Outdoor plaza-level view and indoor lobby perspective at the double-height entrance datum.' },
@@ -44,7 +44,6 @@ export const projects = [
     year: '2023',
     featured: true,
     location: 'Ubud, Bali',
-    fullDesignUrl: 'https://www.google.com',
     designs: [
       { label: 'Desain Maket', caption: '1:150 site model in dark board, the terraced guest pavilions cascading toward the river valley.' },
       { label: 'Perspektif Bangunan', caption: 'Outdoor pool-deck horizon and indoor lobby-lounge perspectives.' },
@@ -62,7 +61,6 @@ export const projects = [
     year: '2022',
     featured: true,
     location: 'Yogyakarta',
-    fullDesignUrl: 'https://www.google.com',
     designs: [
       { label: 'Desain Maket', caption: '1:100 sectional model in black card revealing the passive-ventilation atrium and the timber roof lattice.' },
       { label: 'Perspektif Bangunan', caption: 'Outdoor entry court and indoor reading-hall perspectives under the clerestory.' },
@@ -80,7 +78,6 @@ export const projects = [
     year: '2024',
     featured: true,
     location: 'Jakarta',
-    fullDesignUrl: 'https://www.google.com',
     designs: [
       { label: 'Desain Maket', caption: '1:50 interior model in black foam board, mapping the new mezzanine insertion and the exposed-services ceiling.' },
       { label: 'Perspektif Bangunan', caption: 'Indoor perspectives of the open kitchen and the exposed-services ceiling.' },
@@ -113,6 +110,25 @@ export const SCALES = {
   large: 'Large Scale',
 };
 
+export const projects = defaultProjects.map((p) => ({ ...p }));
+
+export async function loadProjects() {
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('slug,data,sort_order')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    if (data && data.length) {
+      projects.length = 0;
+      data.forEach((row) => projects.push({ slug: row.slug, ...(row.data || {}) }));
+    }
+  } catch (e) {
+    console.warn('[cms] loadProjects fallback to defaults:', e.message);
+  }
+  return projects;
+}
+
 export function getProjectBySlug(slug) {
   return projects.find((p) => p.slug === slug);
 }
@@ -128,7 +144,7 @@ export function getFeaturedProjects() {
 export function filterProjects({ category, style, scale }) {
   return projects.filter((p) => {
     if (category && category !== 'all' && p.primaryCategory !== category) return false;
-    if (style && style !== 'all' && !p.styles.includes(style)) return false;
+    if (style && style !== 'all' && !(p.styles || []).includes(style)) return false;
     if (scale && scale !== 'all' && p.scale !== scale) return false;
     return true;
   });

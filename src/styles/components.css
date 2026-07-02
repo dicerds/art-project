@@ -468,6 +468,7 @@ button.project-card {
   font-size: 14px;
   transition: border-color 0.3s ease;
   outline: none;
+  width: 100%;
 }
 
 .form-group input:focus,
@@ -547,9 +548,16 @@ button.project-card {
   .stat-grid { gap: 24px; }
   .timeline-row { grid-template-columns: 80px 1fr; }
   .timeline-row .t-org { grid-column: 1 / -1; }
+  .filter-btn { padding: 6px 10px; font-size: 9px; }
+  .filter-row { gap: 6px; }
+  .breadcrumb { margin-bottom: 20px; }
+  .contact-form { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
   .project-card { padding: 28px 24px; }
+  .project-card h3 { font-size: 1.25rem; }
   .testimonial-card { padding: 28px 24px; }
+  .btn-primary { padding: 12px 20px; font-size: 10px; }
+  .btn-outline { padding: 10px 18px; font-size: 10px; }
 }

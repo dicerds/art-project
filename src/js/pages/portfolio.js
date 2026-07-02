@@ -1,11 +1,16 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
-import { projects, CATEGORIES, STYLES, SCALES, filterProjects } from '../data/projects.js';
+import { projects, CATEGORIES, STYLES, SCALES, filterProjects, loadProjects } from '../data/projects.js';
 import { createDesignLightbox } from '../components/design-lightbox.js';
+import { projectCarouselMarkup, initProjectCarousel } from '../components/project-carousel.js';
 
 initHeader();
 
 const designLightbox = createDesignLightbox();
+const grid = document.getElementById('portfolioGrid');
 let currentResults = [];
+let carousel = null;
+let trackEl = null;
+let emptyEl = null;
 
 const state = { category: 'all', style: 'all', scale: 'all' };
 
@@ -45,87 +50,9 @@ function syncUrl() {
   window.history.replaceState({}, '', next);
 }
 
-function initDragScroll(container, onTap) {
-  let isDown = false;
-  let dragged = false;
-  let startX = 0;
-  let startScrollLeft = 0;
-
-  container.addEventListener('pointerdown', (e) => {
-    isDown = true;
-    dragged = false;
-    startX = e.clientX;
-    startScrollLeft = container.scrollLeft;
-    container.setPointerCapture(e.pointerId);
-    container.classList.add('dragging');
-  });
-
-  container.addEventListener('pointermove', (e) => {
-    if (!isDown) return;
-    const delta = e.clientX - startX;
-    if (Math.abs(delta) > 5) dragged = true;
-    container.scrollLeft = startScrollLeft - delta;
-  });
-
-  const stop = () => {
-    isDown = false;
-    container.classList.remove('dragging');
-  };
-  container.addEventListener('pointerup', stop);
-  container.addEventListener('pointercancel', stop);
-  container.addEventListener('pointerleave', stop);
-
-  container.addEventListener('click', (e) => {
-    if (dragged) {
-      e.preventDefault();
-      return;
-    }
-    let card = e.target.closest ? e.target.closest('.project-card') : null;
-    if (!card && typeof e.clientX === 'number' && (e.clientX || e.clientY)) {
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      card = el && el.closest ? el.closest('.project-card') : null;
-    }
-    if (card && container.contains(card) && onTap) onTap(card);
-  });
-}
-
-function render() {
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
-
-  const filtersEl = document.getElementById('filters');
-
-  if (projects.length === 0) {
-    if (filtersEl) filtersEl.style.display = 'none';
-    grid.classList.remove('is-carousel');
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon mono">◇</div>
-        <h3 class="display">Portfolio In Progress</h3>
-        <p>Project documentation is being prepared.</p>
-        <div class="empty-state-actions">
-          <a href="/services.html" class="btn-outline mono">View Services</a>
-          <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  const results = filterProjects(state);
-  currentResults = results;
-
-  if (results.length === 0) {
-    grid.classList.remove('is-carousel');
-    grid.innerHTML = `<div class="portfolio-empty">No projects match the selected filters.</div>`;
-    return;
-  }
-
-  grid.classList.add('is-carousel');
-  grid.innerHTML = results
-    .map(
-      (p, i) => `
-    <button type="button" class="project-card" draggable="false" data-index="${i}" aria-label="Open ${p.title} — design drawings" data-reveal>
+function cardHtml(p, i) {
+  return `
+    <button type="button" class="project-card featured-card" data-index="${i}" aria-label="Open ${p.title} — design drawings">
       <span class="card-num mono">N.${String(i + 1).padStart(2, '0')}</span>
       <div class="card-image black-img">
         <span class="corner tl"></span><span class="corner br"></span>
@@ -134,25 +61,70 @@ function render() {
       <h3 class="display">${p.title}</h3>
       <div class="card-meta"><span>${CATEGORIES[p.primaryCategory] || p.primaryCategory}</span><span>${p.year || ''}</span></div>
       <div class="card-tags">${(p.styles || []).map((s) => `<span class="tag">${STYLES[s] || s}</span>`).join('')}</div>
-      <div class="frame"></div>
-    </button>
-  `
-    )
-    .join('');
+    </button>`;
+}
+
+function ensureShell() {
+  if (carousel) return;
+  grid.insertAdjacentHTML('beforeend', projectCarouselMarkup(''));
+  const root = grid.querySelector('.featured-carousel');
+  trackEl = root.querySelector('.featured-track');
+  carousel = initProjectCarousel(root, {
+    onTap: (card) => {
+      const idx = Number(card.dataset.index);
+      if (!Number.isNaN(idx) && currentResults[idx]) designLightbox.open(currentResults, idx);
+    },
+  });
+  emptyEl = document.createElement('div');
+  emptyEl.style.display = 'none';
+  grid.appendChild(emptyEl);
+}
+
+function showMessage(html) {
+  grid.querySelector('.featured-carousel').style.display = 'none';
+  emptyEl.innerHTML = html;
+  emptyEl.style.display = '';
+}
+
+function render() {
+  ensureShell();
+  const filtersEl = document.getElementById('filters');
+
+  if (projects.length === 0) {
+    if (filtersEl) filtersEl.style.display = 'none';
+    showMessage(`
+      <div class="empty-state">
+        <div class="empty-state-icon mono">◇</div>
+        <h3 class="display">Portfolio In Progress</h3>
+        <p>Project documentation is being prepared.</p>
+        <div class="empty-state-actions">
+          <a href="/services/" class="btn-outline mono">View Services</a>
+          <a href="/contact/" class="btn-link mono">Contact Studio →</a>
+        </div>
+      </div>`);
+    return;
+  }
+
+  const results = filterProjects(state);
+  currentResults = results;
+
+  if (results.length === 0) {
+    showMessage('<div class="portfolio-empty">No projects match the selected filters.</div>');
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  grid.querySelector('.featured-carousel').style.display = '';
+  trackEl.innerHTML = results.map(cardHtml).join('');
+  carousel.refresh();
 }
 
 buildFilterButtons(document.getElementById('filterCategory'), CATEGORIES, 'category');
 buildFilterButtons(document.getElementById('filterStyle'), STYLES, 'style');
 buildFilterButtons(document.getElementById('filterScale'), SCALES, 'scale');
 
-render();
-initRevealAnimations();
-
-const portfolioGrid = document.getElementById('portfolioGrid');
-if (portfolioGrid) {
-  initDragScroll(portfolioGrid, (card) => {
-    const idx = Number(card.dataset.index);
-    if (Number.isNaN(idx) || !currentResults[idx]) return;
-    designLightbox.open(currentResults, idx);
-  });
-}
+(async () => {
+  await loadProjects();
+  render();
+  initRevealAnimations();
+})();

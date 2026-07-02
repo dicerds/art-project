@@ -1,7 +1,8 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
-import { getFeaturedProjects, CATEGORIES } from '../data/projects.js';
-import { services } from '../data/services.js';
+import { getFeaturedProjects, CATEGORIES, loadProjects } from '../data/projects.js';
+import { services, loadServices } from '../data/services.js';
 import { createDesignLightbox } from '../components/design-lightbox.js';
+import { initProjectCarousel } from '../components/project-carousel.js';
 
 initHeader();
 
@@ -9,12 +10,15 @@ const designLightbox = createDesignLightbox();
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+(async () => {
+await Promise.all([loadProjects(), loadServices()]);
+
 const servicesGrid = document.getElementById('servicesGrid');
 if (servicesGrid) {
   servicesGrid.innerHTML = services
     .map(
       (s) => `
-    <a href="/services.html#${s.slug}" class="service-card" data-reveal>
+    <a href="/services/#${s.slug}" class="service-card" data-reveal>
       <span class="service-num mono">N.${s.number}</span>
       <h3 class="display">${s.title}</h3>
       <p class="service-tagline mono">${s.tagline}</p>
@@ -37,8 +41,8 @@ if (featuredGrid) {
         <h3 class="display">Portfolio In Progress</h3>
         <p>Project documentation is being prepared. In the meantime, explore our services or reach out to the studio directly.</p>
         <div class="empty-state-actions">
-          <a href="/services.html" class="btn-outline mono">View Services</a>
-          <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
+          <a href="/services/" class="btn-outline mono">View Services</a>
+          <a href="/contact/" class="btn-link mono">Contact Studio →</a>
         </div>
       </div>
     `;
@@ -70,163 +74,17 @@ if (featuredGrid) {
         </div>
         <button type="button" class="carousel-nav carousel-prev" id="featuredPrev" aria-label="Previous">←</button>
         <button type="button" class="carousel-nav carousel-next" id="featuredNext" aria-label="Next">→</button>
-        <div class="carousel-dots" id="featuredDots" role="tablist" aria-label="Featured slides"></div>
       </div>
     `;
 
-    initFeaturedCarousel();
+    initProjectCarousel(document.getElementById('featuredCarousel'), {
+      onTap: (card) => designLightbox.open(featured, Number(card.dataset.index)),
+    });
   }
 }
 
-function initFeaturedCarousel() {
-  const carousel = document.getElementById('featuredCarousel');
-  const viewport = document.getElementById('featuredViewport');
-  const track = document.getElementById('featuredTrack');
-  const prevBtn = document.getElementById('featuredPrev');
-  const nextBtn = document.getElementById('featuredNext');
-  const dots = document.getElementById('featuredDots');
-  if (!carousel || !track) return;
-
-  const cards = Array.from(track.children);
-  const total = cards.length;
-  let current = 0;
-
-  function metrics() {
-    const cardW = cards[0].getBoundingClientRect().width;
-    const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
-    const step = cardW + gap;
-    const visible = Math.max(1, Math.round((viewport.clientWidth + gap) / step));
-    const maxIndex = Math.max(0, total - visible);
-    return { step, visible, maxIndex };
-  }
-
-  function go(i) {
-    const { step, maxIndex } = metrics();
-    if (i < 0) current = maxIndex;
-    else if (i > maxIndex) current = 0;
-    else current = i;
-    track.style.transform = `translateX(${-current * step}px)`;
-    updateDots();
-  }
-
-  function next() {
-    const { maxIndex } = metrics();
-    go(current >= maxIndex ? 0 : current + 1);
-  }
-
-  function prev() {
-    const { maxIndex } = metrics();
-    go(current <= 0 ? maxIndex : current - 1);
-  }
-
-  function buildDots() {
-    const { maxIndex } = metrics();
-    dots.innerHTML = '';
-    for (let i = 0; i <= maxIndex; i++) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'carousel-dot';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      b.addEventListener('click', () => {
-        stopAuto();
-        go(i);
-        startAuto();
-      });
-      dots.appendChild(b);
-    }
-    updateDots();
-  }
-
-  function updateDots() {
-    Array.from(dots.children).forEach((d, i) => {
-      const active = i === current;
-      d.classList.toggle('active', active);
-      d.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-  }
-
-  let timer = null;
-  function startAuto() {
-    if (reduceMotion) return;
-    stopAuto();
-    timer = setInterval(next, 4500);
-  }
-  function stopAuto() {
-    if (timer) {
-      clearInterval(timer);
-      timer = null;
-    }
-  }
-
-  prevBtn.addEventListener('click', () => {
-    stopAuto();
-    prev();
-    startAuto();
-  });
-  nextBtn.addEventListener('click', () => {
-    stopAuto();
-    next();
-    startAuto();
-  });
-
-  carousel.addEventListener('mouseenter', stopAuto);
-  carousel.addEventListener('mouseleave', startAuto);
-  carousel.addEventListener('focusin', stopAuto);
-  carousel.addEventListener('focusout', startAuto);
-
-  carousel.setAttribute('tabindex', '0');
-  carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
-      stopAuto();
-      next();
-      startAuto();
-      e.preventDefault();
-    } else if (e.key === 'ArrowLeft') {
-      stopAuto();
-      prev();
-      startAuto();
-      e.preventDefault();
-    }
-  });
-
-  let touchStart = 0;
-  viewport.addEventListener(
-    'touchstart',
-    (e) => {
-      touchStart = e.touches[0].clientX;
-      stopAuto();
-    },
-    { passive: true }
-  );
-  viewport.addEventListener('touchend', (e) => {
-    const diff = touchStart - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) (diff > 0 ? next : prev)();
-    startAuto();
-  });
-
-  cards.forEach((card) => {
-    card.addEventListener('click', () => {
-      stopAuto();
-      designLightbox.open(featured, Number(card.dataset.index), { onClose: startAuto });
-    });
-  });
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      current = Math.min(current, metrics().maxIndex);
-      buildDots();
-      go(current);
-    }, 150);
-  });
-
-  buildDots();
-  go(0);
-  startAuto();
-
-}
+initRevealAnimations();
+})();
 
 const canvas = document.getElementById('scene');
 
@@ -324,5 +182,3 @@ if (typeof gsap !== 'undefined') {
     .from('.hero .hero-actions', { opacity: 0, y: 12, duration: 0.8 }, 0.7)
     .from('.site-header', { opacity: 0, y: -16, duration: 0.8 }, 0.1);
 }
-
-initRevealAnimations();

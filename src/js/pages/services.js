@@ -1,8 +1,10 @@
 import { initHeader, initRevealAnimations } from '../utils/shared.js';
-import { services } from '../data/services.js';
+import { services, loadServices } from '../data/services.js';
 import { STYLES } from '../data/projects.js';
 
 initHeader();
+
+await loadServices();
 
 const anchorNav = document.getElementById('servicesAnchorNav');
 if (anchorNav) {
@@ -59,8 +61,8 @@ if (list) {
       </div>
 
       <div class="service-footer">
-        <a href="/portfolio.html?category=${s.category}" class="btn-link mono">View ${s.title} Projects →</a>
-        <a href="/contact.html?service=${s.slug}" class="btn-outline mono">Discuss Your Project</a>
+        <a href="/portfolio/?category=${s.category}" class="btn-link mono">View ${s.title} Projects →</a>
+        <a href="/contact/?service=${s.slug}" class="btn-outline mono">Discuss Your Project</a>
       </div>
     </article>
   `
