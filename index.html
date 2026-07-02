@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERIDIAN — Architecture Studio</title>
+  <meta name="description" content="Studio arsitektur yang merancang ruang lewat riset material, cahaya, dan bentuk — dari sketsa garis hingga bangunan yang berdiri.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+  <canvas id="scene"></canvas>
+
+  <header id="main-header">
+    <div class="mark display">MERIDIAN</div>
+    <nav id="main-nav">
+      <a href="#profile">Profile</a>
+      <a href="#works">Works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="eyebrow mono">ARCHITECTURE &amp; SPATIAL DESIGN</div>
+      <h1 class="display">
+        <span>Every structure</span>
+        <span>begins as <em>a line</em></span>
+      </h1>
+      <p class="sub">Studio arsitektur yang merancang ruang lewat riset material, cahaya, dan bentuk — dari sketsa garis hingga bangunan yang berdiri.</p>
+      <div class="scroll-cue mono">
+        <div class="bar"></div>SCROLL
+      </div>
+    </section>
+
+    <!-- ============ PROFILE ============ -->
+    <section class="profile" id="profile">
+      <div class="section-head">
+        <h2 class="display">Profile</h2>
+        <div class="label mono">01 / TENTANG PRINSIPAL</div>
+      </div>
+      <div class="profile-grid">
+        <div class="profile-photo" data-reveal>
+          <span class="corner tl"></span>
+          <span class="corner br"></span>
+          <div class="ph-label mono">[ FOTO PROFIL ]<br>ganti dengan foto asli Anda</div>
+        </div>
+        <div class="profile-copy">
+          <div class="name display" data-reveal>Nama Anda</div>
+          <div class="role mono" data-reveal>PRINCIPAL ARCHITECT — [Nama Studio]</div>
+          <p data-reveal>[Placeholder] Tulis di sini latar belakang profesional Anda yang sebenarnya: pendidikan, tahun mulai praktik, filosofi desain, dan spesialisasi. Bagian ini nanti diisi dengan biografi asli Anda, bukan klaim yang dibuat-buat.</p>
+          <div class="skills" data-reveal>
+            <span>Desain Residensial</span>
+            <span>Perencanaan Ruang</span>
+            <span>Material &amp; Cahaya</span>
+            <span>SketchUp / AutoCAD</span>
+            <span>Rendering 3D</span>
+          </div>
+          <div class="cv-actions" data-reveal>
+            <a href="#" onclick="return false;">Unduh CV (placeholder)</a>
+            <span class="note mono">Tautkan file CV asli Anda di sini</span>
+          </div>
+          <div class="timeline" data-reveal>
+            <div class="t-row">
+              <span class="yr mono">[Tahun]</span>
+              <span class="role">Isi jenjang pendidikan / pekerjaan</span>
+              <span class="org mono">Nama institusi</span>
+            </div>
+            <div class="t-row">
+              <span class="yr mono">[Tahun]</span>
+              <span class="role">Isi pengalaman kerja</span>
+              <span class="org mono">Nama perusahaan</span>
+            </div>
+            <div class="t-row">
+              <span class="yr mono">[Tahun]</span>
+              <span class="role">Isi pencapaian / sertifikasi</span>
+              <span class="org mono">Nama penerbit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORKS ============ -->
+    <section id="works">
+      <div class="section-head">
+        <h2 class="display">Karya Terpilih</h2>
+        <div class="label mono">02 / WORKS</div>
+      </div>
+      <div class="filters mono" id="filters">
+        <button data-filter="all" class="active">SEMUA</button>
+        <button data-filter="residensial">RESIDENSIAL</button>
+        <button data-filter="publik">PUBLIK</button>
+        <button data-filter="komersial">KOMERSIAL</button>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <div class="section-head">
+        <div class="label mono">03 / KONTAK</div>
+      </div>
+      <h2>Punya lahan kosong<br>dan sebuah gagasan?</h2>
+      <a class="cta mono" href="mailto:nama@email-anda.com">Mulai Percakapan →</a>
+    </section>
+
+    <footer id="main-footer">
+      <span class="mono">© 2026 [NAMA STUDIO ANDA]</span>
+      <span class="mono">MAGELANG, ID</span>
+    </footer>
+  </main>
+
+  <!-- ============ PROJECT DETAIL MODAL ============ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-box" id="modalBox"></div>
+  </div>
+
+  <!-- ============ TEMPLATE NOTICE ============ -->
+  <div class="template-notice mono">
+    ⚠ Ini masih <b>template placeholder</b> — ganti foto, biografi, dan data proyek dengan milik Anda sebelum dipublikasikan.
+  </div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
