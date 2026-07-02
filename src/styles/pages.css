@@ -89,10 +89,6 @@
 }
 
 .home-featured .featured-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-  background: var(--rule);
   margin-top: 40px;
 }
 
@@ -200,7 +196,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  background: var(--rule);
 }
 
 .portfolio-empty {

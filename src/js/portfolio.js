@@ -11,6 +11,7 @@ if (url.searchParams.get('style')) state.style = url.searchParams.get('style');
 if (url.searchParams.get('scale')) state.scale = url.searchParams.get('scale');
 
 function buildFilterButtons(container, options, key) {
+  if (!container) return;
   const entries = [['all', 'All'], ...Object.entries(options)];
   container.innerHTML = entries
     .map(
@@ -53,7 +54,7 @@ function render() {
       <div class="empty-state">
         <div class="empty-state-icon mono">◇</div>
         <h3 class="display">Portfolio In Progress</h3>
-        <p>Project documentation is being prepared. In the meantime, explore our services or reach out to the studio to discuss your project.</p>
+        <p>Project documentation is being prepared. In the meantime, explore the services or reach out to discuss your project.</p>
         <div class="empty-state-actions">
           <a href="/services.html" class="btn-outline mono">View Services</a>
           <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
@@ -77,11 +78,10 @@ function render() {
   grid.innerHTML = results
     .map(
       (p, i) => `
-    <a href="/project.html?slug=${p.slug}" class="project-card" data-reveal>
+    <a href="${p.externalUrl || '/project.html?slug=' + p.slug}" ${p.externalUrl ? 'target="_blank" rel="noopener"' : ''} class="project-card" data-reveal>
       <span class="card-num mono">N.${String(i + 1).padStart(2, '0')}</span>
-      <div class="card-image placeholder-img">
-        <span class="corner tl"></span>
-        <span class="corner br"></span>
+      <div class="card-image">
+        ${p.heroImage ? `<img src="${p.heroImage}" alt="${p.title}">` : `<div class="placeholder-img"><span class="corner tl"></span><span class="corner br"></span></div>`}
       </div>
       <h3 class="display">${p.title}</h3>
       <div class="card-meta">
@@ -91,11 +91,13 @@ function render() {
       <div class="card-tags">
         ${(p.styles || []).map((s) => `<span class="tag">${STYLES[s] || s}</span>`).join('')}
       </div>
-      <div class="frame"></div>
+      <span class="card-view mono">View Project →</span>
     </a>
   `
     )
     .join('');
+
+  initRevealAnimations();
 }
 
 buildFilterButtons(document.getElementById('filterCategory'), CATEGORIES, 'category');

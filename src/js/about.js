@@ -112,32 +112,32 @@ const processSteps = [
   {
     title: 'Initial Consultation',
     description:
-      'No-cost discussion to understand your vision, budget, timeline, and goals. This session informs the scope of work proposal.',
+      'Free discussion to understand your vision, requirements, and budget. This session defines the scope of work and timeline.',
   },
   {
-    title: 'Site Research & Programming',
+    title: 'Site Analysis & Programming',
     description:
-      'Field survey, measurements, regulatory analysis, solar orientation study, and space program development based on user needs.',
+      'Site survey, measurements, regulatory analysis, and space requirements based on how you will use the building.',
   },
   {
     title: 'Design Concept',
     description:
-      'Initial sketches, mass studies, and layout alternatives. Concepts presented via drawings, diagrams, and early 3D visualization.',
+      'Initial sketches, layout options, and early 3D visualization. You choose the direction before I proceed.',
   },
   {
     title: 'Design Development',
     description:
-      'Material detailing, finishing systems, structural strategy, and initial coordination with MEP, structural, and landscape consultants.',
+      'Material selection, structural strategy, and coordination with engineering consultants. Detailed drawings take shape.',
   },
   {
     title: 'Construction Documents',
     description:
-      'Complete documentation for bidding and construction: floor plans, elevations, sections, detail drawings, specifications, and material schedules.',
+      'Complete technical drawings for construction: floor plans, elevations, sections, details, and material specifications.',
   },
   {
-    title: 'Construction Administration',
+    title: 'Construction Oversight',
     description:
-      'Periodic site visits, contractor coordination, change order review, and quality assurance through project handoff.',
+      'Periodic site visits, contractor coordination, and quality checks through project completion and handover.',
   },
 ];
 

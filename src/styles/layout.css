@@ -28,12 +28,6 @@
   font-weight: 500;
 }
 
-.site-header .mark img {
-  height: 42px;
-  width: auto;
-  mix-blend-mode: multiply;
-}
-
 .site-header nav {
   display: flex;
   gap: 32px;

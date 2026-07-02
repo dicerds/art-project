@@ -30,7 +30,7 @@ if (featuredGrid) {
       <div class="empty-state">
         <div class="empty-state-icon mono">◇</div>
         <h3 class="display">Portfolio In Progress</h3>
-        <p>Project documentation is being prepared. In the meantime, explore our services or reach out to the studio directly.</p>
+        <p>Project documentation is being prepared. In the meantime, explore the services or reach out directly.</p>
         <div class="empty-state-actions">
           <a href="/services.html" class="btn-outline mono">View Services</a>
           <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
@@ -38,26 +38,120 @@ if (featuredGrid) {
       </div>
     `;
   } else {
-    featuredGrid.innerHTML = featured
-      .map(
-        (p, i) => `
-      <a href="/project.html?slug=${p.slug}" class="project-card" data-reveal>
-        <span class="card-num mono">N.0${i + 1}</span>
-        <div class="card-image placeholder-img">
-          <span class="corner tl"></span>
-          <span class="corner br"></span>
+    featuredGrid.innerHTML = `
+      <div class="featured-carousel" id="featuredCarousel">
+        <div class="featured-track" id="featuredTrack">
+          ${featured
+            .map(
+              (p, i) => `
+            <a href="${p.externalUrl || '/project.html?slug=' + p.slug}" ${p.externalUrl ? 'target="_blank" rel="noopener"' : ''} class="featured-slide">
+              <div class="featured-slide-image">
+                ${p.heroImage ? `<img src="${p.heroImage}" alt="${p.title}">` : ''}
+              </div>
+              <div class="featured-slide-info">
+                <span class="card-num mono">N.0${i + 1}</span>
+                <h3 class="display">${p.title}</h3>
+                <div class="card-meta">
+                  <span>${CATEGORIES[p.primaryCategory]}</span>
+                  <span>${p.year}</span>
+                </div>
+                <span class="featured-view mono">View Project →</span>
+              </div>
+            </a>
+          `
+            )
+            .join('')}
         </div>
-        <h3 class="display">${p.title}</h3>
-        <div class="card-meta">
-          <span>${CATEGORIES[p.primaryCategory]}</span>
-          <span>${p.year}</span>
+        <div class="featured-controls">
+          <button class="featured-nav featured-prev" id="featuredPrev" aria-label="Previous project">←</button>
+          <div class="featured-dots" id="featuredDots">
+            ${featured.map((_, i) => `<button class="featured-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to project ${i + 1}"></button>`).join('')}
+          </div>
+          <button class="featured-nav featured-next" id="featuredNext" aria-label="Next project">→</button>
         </div>
-        <div class="frame"></div>
-      </a>
-    `
-      )
-      .join('');
+      </div>
+    `;
+
+    initFeaturedCarousel();
   }
+}
+
+function initFeaturedCarousel() {
+  const track = document.getElementById('featuredTrack');
+  const prevBtn = document.getElementById('featuredPrev');
+  const nextBtn = document.getElementById('featuredNext');
+  const dots = document.querySelectorAll('.featured-dot');
+  const slides = track.querySelectorAll('.featured-slide');
+
+  let current = 0;
+  const total = slides.length;
+
+  function update() {
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  prevBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    current = (current - 1 + total) % total;
+    update();
+  });
+
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    current = (current + 1) % total;
+    update();
+  });
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      current = parseInt(dot.dataset.index, 10);
+      update();
+    });
+  });
+
+  let touchStart = 0;
+  let touchDelta = 0;
+  let dragging = false;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStart = e.touches[0].clientX;
+    touchDelta = 0;
+    dragging = true;
+    track.style.transition = 'none';
+  });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    touchDelta = e.touches[0].clientX - touchStart;
+    const base = -current * 100;
+    const percent = (touchDelta / track.parentElement.offsetWidth) * 100;
+    track.style.transform = `translateX(${base + percent}%)`;
+  });
+
+  track.addEventListener('touchend', () => {
+    dragging = false;
+    track.style.transition = '';
+    if (Math.abs(touchDelta) > 50) {
+      if (touchDelta < 0 && current < total - 1) current++;
+      else if (touchDelta > 0 && current > 0) current--;
+    }
+    update();
+  });
+
+  const carousel = document.getElementById('featuredCarousel');
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      current = (current + 1) % total;
+      update();
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft') {
+      current = (current - 1 + total) % total;
+      update();
+      e.preventDefault();
+    }
+  });
 }
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
