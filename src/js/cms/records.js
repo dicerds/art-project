@@ -18,10 +18,9 @@ export const PROJECT_FIELDS = [
   { key: 'scope', label: 'Lingkup', type: 'text' },
   {
     key: 'designs', label: 'Gambar Desain (Portfolio & Featured Work)', type: 'objlist',
-    hint: 'Tambah / ganti / urutkan gambar desain (maket, tampak, denah, site plan, dll). Tampil saat proyek diklik.',
     subfields: [
       { key: 'image', label: 'Gambar Desain', type: 'image' },
-      { key: 'label', label: 'Label (mis. Site Plan)', type: 'text' },
+      { key: 'label', label: 'Label', type: 'text' },
       { key: 'caption', label: 'Keterangan', type: 'textarea' },
     ],
   },

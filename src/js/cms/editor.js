@@ -29,7 +29,7 @@ function updateSaveLabel() {
   const d = isDirty();
   const n = pendingCount();
   btn.disabled = !d;
-  btn.textContent = d ? `Simpan${n ? ` (${n})` : ''} ✱` : 'Simpan';
+  btn.textContent = d ? `Simpan${n ? ` (${n})` : ''}` : 'Simpan';
   btn.classList.toggle('has-changes', d);
 }
 
@@ -114,7 +114,6 @@ function enableInline() {
     node.setAttribute('contenteditable', 'true');
     node.setAttribute('spellcheck', 'false');
     node.dataset.cmsPath = path;
-    node.title = 'Klik untuk mengubah teks';
     if (!originals.has(path)) originals.set(path, { text: node.textContent });
     node.addEventListener('input', onTextInput);
     node.addEventListener('blur', commitPendingText);
@@ -125,13 +124,11 @@ function enableInline() {
     const path = getPath(img);
     img.classList.add('cms-img-editable');
     img.dataset.cmsPath = path;
-    img.title = 'Klik untuk mengganti gambar';
     if (!originals.has(path)) originals.set(path, { src: img.getAttribute('src') || '', alt: img.alt || '' });
     img.addEventListener('click', onImageClick);
   });
 
   document.addEventListener('click', blockNav, true);
-  showHintBanner();
 }
 function disableInline() {
   document.body.classList.remove('cms-editing');
@@ -139,30 +136,16 @@ function disableInline() {
     if (node.closest('[data-cms-ui]')) return;
     node.removeAttribute('contenteditable');
     node.removeAttribute('spellcheck');
-    node.removeAttribute('title');
     node.removeEventListener('input', onTextInput);
     node.removeEventListener('blur', commitPendingText);
   });
   document.querySelectorAll('.cms-img-editable').forEach((img) => {
     img.classList.remove('cms-img-editable');
-    img.removeAttribute('title');
     img.removeEventListener('click', onImageClick);
   });
   document.removeEventListener('click', blockNav, true);
-  document.querySelector('.cms-hint-banner')?.remove();
 }
 
-function showHintBanner() {
-  if (document.querySelector('.cms-hint-banner')) return;
-  const banner = el(`
-    <div class="cms-hint-banner" data-cms-ui>
-      <span>✏️ <strong>Mode Edit aktif.</strong> Klik teks untuk mengubah · klik gambar untuk mengganti · <b>Ctrl+Z</b> urungkan · <b>Esc</b> keluar.</span>
-      <button class="cms-hint-close" title="Tutup petunjuk">✕</button>
-    </div>`);
-  banner.querySelector('.cms-hint-close').addEventListener('click', () => banner.remove());
-  document.body.appendChild(banner);
-  setTimeout(() => banner.remove(), 8000);
-}
 function onTextInput(e) {
   const path = e.currentTarget.dataset.cmsPath;
   fieldChanges.set(path, { text: e.currentTarget.textContent });
@@ -192,10 +175,10 @@ function renderBlocksEditable() {
     const id = sec.dataset.cmsBlockId;
     const bar = el(`
       <div class="cms-block-toolbar" data-cms-ui>
-        <button title="Naik" data-act="up">↑</button>
-        <button title="Turun" data-act="down">↓</button>
-        <button title="Edit" data-act="edit">✎</button>
-        <button title="Hapus" data-act="del">🗑</button>
+        <button data-act="up">↑</button>
+        <button data-act="down">↓</button>
+        <button data-act="edit">Edit</button>
+        <button data-act="del">Hapus</button>
       </div>`);
     bar.addEventListener('click', (e) => {
       const act = e.target.dataset.act;
@@ -229,7 +212,6 @@ function openTypePicker() {
     <div class="cms-overlay" data-cms-ui>
       <div class="cms-panel">
         <h3>Tambah Section</h3>
-        <p class="cms-sub">Pilih jenis section yang ingin ditambahkan ke halaman ini.</p>
         <div class="cms-type-grid">${grid}</div>
         <div class="cms-panel-actions"><button class="cms-btn" data-close>Batal</button></div>
       </div>
@@ -259,8 +241,7 @@ function openBlockForm(id) {
   const overlay = el(`
     <div class="cms-overlay" data-cms-ui>
       <div class="cms-panel">
-        <h3>Edit: ${def.label}</h3>
-        <p class="cms-sub">Ubah isi section, lalu Terapkan.</p>
+        <h3>${def.label}</h3>
         <div class="cms-form"></div>
         <div class="cms-panel-actions">
           <button class="cms-btn" data-close>Batal</button>
@@ -334,7 +315,7 @@ function buildField(field, data) {
         list.appendChild(row);
       });
     };
-    const add = el('<button class="cms-btn cms-primary" type="button">+ Tambah gambar</button>');
+    const add = el('<button class="cms-btn cms-primary" type="button">Tambah gambar</button>');
     add.addEventListener('click', async () => {
       const file = await pickFile(); if (!file) return;
       const p = await uploadImage(file); data[field.key].push({ src: p, alt: '' }); redraw();
@@ -358,7 +339,7 @@ function buildField(field, data) {
         list.appendChild(row);
       });
     };
-    const add = el('<button class="cms-btn cms-primary" type="button">+ Tambah kartu</button>');
+    const add = el('<button class="cms-btn cms-primary" type="button">Tambah kartu</button>');
     add.addEventListener('click', () => { data[field.key].push({ title: '', text: '' }); redraw(); });
     redraw();
     wrap.append(list, add);
@@ -394,7 +375,7 @@ async function saveAll() {
     }
     savedIndex = hIndex;
     updateSaveLabel();
-    toast('Semua perubahan tersimpan ✓');
+    toast('Perubahan disimpan');
   } catch (err) {
     toast('Gagal menyimpan: ' + (err.message || err), true);
     if (btn) { btn.textContent = 'Coba lagi'; btn.disabled = false; }
@@ -410,7 +391,7 @@ function setEditing(on) {
     enableInline();
     renderBlocksEditable();
     if (history.length === 0) { recordHistory(); savedIndex = 0; }
-    t.classList.add('is-on'); t.innerHTML = '<span class="cms-dot"></span> Mode Edit AKTIF';
+    t.classList.add('is-on'); t.innerHTML = '<span class="cms-dot"></span> Mode Edit Aktif';
     toolButtons.forEach((b) => { b.style.display = ''; });
     refreshUndoRedo();
   } else {
@@ -418,7 +399,7 @@ function setEditing(on) {
     disableInline();
     const region = ensureRegion();
     region.innerHTML = blocks.map(renderBlock).join('');
-    t.classList.remove('is-on'); t.innerHTML = '✏️ Mulai Edit';
+    t.classList.remove('is-on'); t.innerHTML = 'Mulai Edit';
     toolButtons.forEach((b) => { b.style.display = 'none'; });
   }
 }
@@ -437,7 +418,6 @@ export async function initEditor() {
   const bar = el(`
     <div class="cms-bar" data-cms-ui>
       <div class="cms-bar-brand">
-        <span class="cms-bar-logo">◆</span>
         <span class="cms-bar-titles">
           <strong>Panel Admin</strong>
           <small>${email}</small>
@@ -454,13 +434,13 @@ export async function initEditor() {
             <option value="/contact/">Contact</option>
           </select>
         </label>
-        <button class="cms-btn cms-edit-toggle" title="Aktifkan mode edit di halaman ini">✏️ Mulai Edit</button>
-        <button class="cms-btn cms-add" style="display:none" title="Tambahkan section baru">＋ Section</button>
-        <button class="cms-btn cms-undo" style="display:none" title="Urungkan (Ctrl+Z)" disabled>↶ Undo</button>
-        <button class="cms-btn cms-redo" style="display:none" title="Ulangi (Ctrl+Shift+Z)" disabled>↷ Redo</button>
-        <button class="cms-btn cms-manage" title="Kelola Portfolio, Services & About">🗂 Kelola Data</button>
-        <button class="cms-btn cms-save" disabled title="Simpan semua perubahan">Simpan</button>
-        <button class="cms-btn cms-logout" title="Keluar dari panel admin">Keluar</button>
+        <button class="cms-btn cms-edit-toggle">Mulai Edit</button>
+        <button class="cms-btn cms-add" style="display:none">Tambah Section</button>
+        <button class="cms-btn cms-undo" style="display:none" disabled>Undo</button>
+        <button class="cms-btn cms-redo" style="display:none" disabled>Redo</button>
+        <button class="cms-btn cms-manage">Kelola Data</button>
+        <button class="cms-btn cms-save" disabled>Simpan</button>
+        <button class="cms-btn cms-logout">Keluar</button>
       </div>
     </div>`);
   document.body.appendChild(bar);

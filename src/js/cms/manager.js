@@ -24,7 +24,7 @@ export async function openManager() {
             <button class="cms-tab" data-kind="services">Services</button>
             <button class="cms-tab" data-kind="about">About</button>
           </div>
-          <button class="cms-btn" data-close>Tutup ✕</button>
+          <button class="cms-btn" data-close>Tutup</button>
         </div>
         <div class="cms-manager-body"></div>
       </div>
@@ -61,7 +61,7 @@ async function renderList() {
     <div class="cms-list-row" data-slug="${r.slug}">
       <div class="cms-list-main">
         <strong>${r.title || r.slug}</strong>
-        <span class="cms-list-sub">${r.slug}${r.featured ? ' · ★ featured' : ''}</span>
+        <span class="cms-list-sub">${r.slug}${r.featured ? ' · Featured' : ''}</span>
       </div>
       <div class="cms-list-actions">
         <button class="cms-btn" data-act="edit">Edit</button>
@@ -71,8 +71,8 @@ async function renderList() {
 
   b.innerHTML = `
     <div class="cms-list-head">
-      <p class="cms-sub">${records.length} ${singular.toLowerCase()} • klik Edit untuk mengubah, atau tambah baru.</p>
-      <button class="cms-btn cms-primary" data-act="add">+ Tambah ${singular}</button>
+      <p class="cms-sub">${records.length} ${singular.toLowerCase()}</p>
+      <button class="cms-btn cms-primary" data-act="add">Tambah ${singular}</button>
     </div>
     <div class="cms-list">${rows || '<p class="cms-sub">Belum ada data.</p>'}</div>`;
 
@@ -99,7 +99,7 @@ async function renderAbout() {
 
   b.innerHTML = `
     <div class="cms-list-head">
-      <p class="cms-sub">Kelola isi halaman About. Buka tiap bagian, tambah/hapus item, lalu Simpan.</p>
+      <p class="cms-sub">Halaman About</p>
       <button class="cms-btn cms-primary" data-save-about>Simpan About</button>
     </div>
     <div class="cms-about-form"></div>
@@ -108,6 +108,7 @@ async function renderAbout() {
     </div>`;
 
   const form = b.querySelector('.cms-about-form');
+  form.appendChild(buildField({ key: 'photo', label: 'Foto Profil', type: 'image' }, model));
   ABOUT_SECTIONS.forEach((sec) => {
     const count = Array.isArray(model[sec.key]) ? model[sec.key].length : 0;
     const box = el(`<details class="cms-about-sec"><summary>${sec.label} <span class="cms-badge">${count}</span></summary></details>`);
@@ -120,7 +121,7 @@ async function renderAbout() {
     btn.addEventListener('click', async () => {
       b.querySelectorAll('[data-save-about]').forEach((x) => { x.disabled = true; });
       btn.textContent = 'Menyimpan…';
-      try { await saveAbout(model); toast('Halaman About tersimpan ✓'); renderAbout(); }
+      try { await saveAbout(model); toast('About disimpan'); renderAbout(); }
       catch (e) { toast('Gagal: ' + e.message, true); btn.textContent = 'Simpan About'; b.querySelectorAll('[data-save-about]').forEach((x) => { x.disabled = false; }); }
     })
   );
@@ -155,7 +156,7 @@ function openForm(record, count) {
     try {
       const sortOrder = record?.sort_order ?? count;
       await saveRecord(activeKind, model, sortOrder, originalSlug);
-      toast('Tersimpan ✓');
+      toast('Tersimpan');
       renderList();
     } catch (e) {
       toast('Gagal: ' + e.message, true);
@@ -233,13 +234,13 @@ function buildField(field, model) {
         const row = el('<div class="cms-inline-row"></div>');
         const i = el('<input type="text">'); i.value = str;
         i.addEventListener('input', () => { model[field.key][idx] = i.value; });
-        const rm = el('<button class="cms-btn cms-danger" type="button">✕</button>');
+        const rm = el('<button class="cms-btn cms-danger" type="button">Hapus</button>');
         rm.addEventListener('click', () => { model[field.key].splice(idx, 1); redraw(); });
         row.append(i, rm);
         list.appendChild(row);
       });
     };
-    const add = el('<button class="cms-btn cms-primary" type="button">+ Tambah item</button>');
+    const add = el('<button class="cms-btn cms-primary" type="button">Tambah item</button>');
     add.addEventListener('click', () => { model[field.key].push(''); redraw(); });
     redraw();
     wrap.append(list, add);
@@ -274,7 +275,7 @@ function buildField(field, model) {
         list.appendChild(card);
       });
     };
-    const add = el(`<button class="cms-btn cms-primary" type="button">+ Tambah</button>`);
+    const add = el(`<button class="cms-btn cms-primary" type="button">Tambah</button>`);
     add.addEventListener('click', () => { arr.push({}); redraw(); });
     redraw();
     wrap.append(list, add);
