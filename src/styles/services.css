@@ -525,9 +525,103 @@
   .scope-grid { grid-template-columns: 1fr; }
 }
 
+.detail-gallery-section {
+  margin-top: 48px;
+}
+
+.detail-gallery-section h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.gallery-carousel {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+}
+
+.gallery-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-slide {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  background: var(--bg-soft);
+  position: relative;
+}
+
+.gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(26, 26, 26, 0.85);
+  color: var(--paper);
+  padding: 16px 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(26, 26, 26, 0.7);
+  border: none;
+  color: var(--paper);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+.gallery-nav:hover {
+  background: rgba(26, 26, 26, 0.95);
+}
+
+.gallery-prev {
+  left: 16px;
+}
+
+.gallery-next {
+  right: 16px;
+}
+
+.gallery-counter {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(26, 26, 26, 0.8);
+  color: var(--paper);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  border-radius: 3px;
+}
+
 @media (max-width: 600px) {
   .approach-grid { grid-template-columns: 1fr; }
   .service-detail-head { flex-direction: column; gap: 8px; }
   .service-detail-head .service-num { min-width: 0; }
   .detail-cta { flex-direction: column; align-items: stretch; }
+  .gallery-nav { width: 36px; height: 36px; font-size: 16px; }
+  .gallery-prev { left: 8px; }
+  .gallery-next { right: 8px; }
 }

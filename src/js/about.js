@@ -4,34 +4,34 @@ initHeader();
 
 const processSteps = [
   {
-    title: 'Konsultasi Awal',
+    title: 'Initial Consultation',
     description:
-      'Sesi diskusi tanpa biaya untuk memahami kebutuhan, anggaran, timeline, dan visi Anda. Hasil sesi ini menjadi dasar penawaran lingkup pekerjaan.',
+      'No-cost discussion to understand your vision, budget, timeline, and goals. This session informs the scope of work proposal.',
   },
   {
-    title: 'Riset Tapak & Program Ruang',
+    title: 'Site Research & Programming',
     description:
-      'Survei lapangan, pengukuran, analisis regulasi setempat, orientasi matahari, dan penyusunan program ruang berdasarkan kebutuhan pengguna.',
+      'Field survey, measurements, regulatory analysis, solar orientation study, and space program development based on user needs.',
   },
   {
-    title: 'Konsep Desain',
+    title: 'Design Concept',
     description:
-      'Sketsa awal, studi massa, dan alternatif tata ruang. Konsep dipresentasikan dalam bentuk gambar, diagram, dan visualisasi 3D awal.',
+      'Initial sketches, mass studies, and layout alternatives. Concepts presented via drawings, diagrams, and early 3D visualization.',
   },
   {
-    title: 'Pengembangan Desain',
+    title: 'Design Development',
     description:
-      'Detail material, finishing, sistem struktur, dan koordinasi awal dengan konsultan MEP, struktur, dan lansekap.',
+      'Material detailing, finishing systems, structural strategy, and initial coordination with MEP, structural, and landscape consultants.',
   },
   {
-    title: 'Gambar Kerja',
+    title: 'Construction Documents',
     description:
-      'Dokumentasi lengkap untuk tender dan pelaksanaan: denah, tampak, potongan, detail sambungan, spesifikasi material, dan Bill of Quantity (BoQ).',
+      'Complete documentation for bidding and construction: floor plans, elevations, sections, detail drawings, specifications, and material schedules.',
   },
   {
-    title: 'Pengawasan Pelaksanaan',
+    title: 'Construction Administration',
     description:
-      'Kunjungan lapangan berkala, koordinasi dengan kontraktor, review perubahan, dan penjaminan mutu hingga serah terima.',
+      'Periodic site visits, contractor coordination, change order review, and quality assurance through project handoff.',
   },
 ];
 

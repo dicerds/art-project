@@ -11,7 +11,7 @@ if (url.searchParams.get('style')) state.style = url.searchParams.get('style');
 if (url.searchParams.get('scale')) state.scale = url.searchParams.get('scale');
 
 function buildFilterButtons(container, options, key) {
-  const entries = [['all', 'Semua'], ...Object.entries(options)];
+  const entries = [['all', 'All'], ...Object.entries(options)];
   container.innerHTML = entries
     .map(
       ([val, label]) =>
@@ -49,11 +49,11 @@ function render() {
     grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon mono">◇</div>
-        <h3 class="display">Portofolio dalam Persiapan</h3>
-        <p>Dokumentasi proyek sedang disusun secara bertahap. Sementara ini, Anda dapat mempelajari layanan atau menghubungi studio untuk berdiskusi.</p>
+        <h3 class="display">Portfolio In Progress</h3>
+        <p>Project documentation is being prepared. In the meantime, explore our services or reach out to the studio to discuss your project.</p>
         <div class="empty-state-actions">
-          <a href="/services.html" class="btn-outline mono">Lihat Layanan</a>
-          <a href="/contact.html" class="btn-link mono">Hubungi Studio →</a>
+          <a href="/services.html" class="btn-outline mono">View Services</a>
+          <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
         </div>
       </div>
     `;
@@ -65,7 +65,7 @@ function render() {
   if (results.length === 0) {
     grid.innerHTML = `
       <div class="portfolio-empty">
-        Tidak ada proyek yang cocok dengan filter yang dipilih.
+        No projects match the selected filters.
       </div>
     `;
     return;

@@ -11,11 +11,11 @@ function renderNotFound() {
   content.innerHTML = `
     <div class="empty-state">
       <div class="empty-state-icon mono">◇</div>
-      <h1 class="display">Proyek tidak ditemukan</h1>
-      <p>Halaman proyek yang Anda cari belum tersedia atau slug tidak sesuai. Silakan kembali ke portofolio.</p>
+      <h1 class="display">Project Not Found</h1>
+      <p>The project you're looking for is not available. Please check the URL or return to the portfolio.</p>
       <div class="empty-state-actions">
-        <a href="/portfolio.html" class="btn-outline mono">← Kembali ke Portofolio</a>
-        <a href="/contact.html" class="btn-link mono">Hubungi Studio →</a>
+        <a href="/portfolio.html" class="btn-outline mono">← Back to Portfolio</a>
+        <a href="/contact.html" class="btn-link mono">Get In Touch →</a>
       </div>
     </div>
   `;
@@ -51,26 +51,35 @@ function relatedCard(id) {
 }
 
 function renderProject(p) {
-  document.title = `${p.title} — Studio Arsitektur`;
+  document.title = `${p.title} — ARCHITEKTA`;
 
   const styleTags = (p.styles || [])
     .map((s) => `<span class="tag">${STYLES[s] || s}</span>`)
     .join('');
 
-  const hasGallery = Array.isArray(p.gallery) && p.gallery.some((g) => g);
+  const hasGallery = Array.isArray(p.gallery) && p.gallery.some((g) => g && g.image);
   const gallery = hasGallery
     ? `
-    <section class="detail-gallery" data-reveal>
-      ${p.gallery
-        .filter((g) => g)
-        .map(
-          (g, i) => `
-        <div class="gallery-item">
-          <img src="${g}" alt="${p.title} — foto ${i + 1}">
+    <section class="detail-gallery-section" data-reveal>
+      <h2>Project Gallery</h2>
+      <div class="gallery-carousel" id="galleryCarousel">
+        <div class="gallery-track" id="galleryTrack">
+          ${p.gallery
+            .filter((g) => g && g.image)
+            .map(
+              (g, i) => `
+            <div class="gallery-slide" data-slide="${i}">
+              <img src="${g.image}" alt="${g.caption || `${p.title} - Image ${i + 1}`}">
+              <div class="gallery-caption">${g.caption || ''}</div>
+            </div>
+          `
+            )
+            .join('')}
         </div>
-      `
-        )
-        .join('')}
+        <button class="gallery-nav gallery-prev" id="galleryPrev">←</button>
+        <button class="gallery-nav gallery-next" id="galleryNext">→</button>
+        <div class="gallery-counter"><span id="galleryIndex">1</span> / <span id="galleryTotal">${p.gallery.filter((g) => g && g.image).length}</span></div>
+      </div>
     </section>
   `
     : '';
@@ -78,9 +87,9 @@ function renderProject(p) {
   const floorplan = p.floorPlan
     ? `
     <section class="detail-floorplan" data-reveal>
-      <h2>Denah</h2>
+      <h2>Floor Plan</h2>
       <div class="floorplan-image">
-        <img src="${p.floorPlan}" alt="Denah ${p.title}">
+        <img src="${p.floorPlan}" alt="Floor plan for ${p.title}">
       </div>
     </section>
   `
@@ -95,7 +104,7 @@ function renderProject(p) {
   const relatedSection = related
     ? `
     <section class="detail-related" data-reveal>
-      <h2 class="mono">Proyek Terkait</h2>
+      <h2 class="mono">Related Projects</h2>
       <div class="related-grid">${related}</div>
     </section>
   `
@@ -119,19 +128,19 @@ function renderProject(p) {
 
     <div class="detail-facts" data-reveal>
       <div class="fact-table">
-        ${factRow('Lokasi', p.location)}
-        ${factRow('Tahun', p.year)}
-        ${factRow('Luas Bangunan', p.buildingArea)}
-        ${factRow('Luas Lahan', p.landArea)}
-        ${factRow('Peran', p.role)}
-        ${factRow('Lingkup', p.scope)}
+        ${factRow('Location', p.location)}
+        ${factRow('Year', p.year)}
+        ${factRow('Building Area', p.buildingArea)}
+        ${factRow('Land Area', p.landArea)}
+        ${factRow('Role', p.role)}
+        ${factRow('Scope', p.scope)}
       </div>
     </div>
 
     ${p.conceptDescription
       ? `
       <section class="detail-concept" data-reveal>
-        <h2>Konsep Desain</h2>
+        <h2>Design Concept</h2>
         <p>${p.conceptDescription}</p>
       </section>
     `
@@ -142,10 +151,64 @@ function renderProject(p) {
     ${relatedSection}
 
     <div class="detail-cta" data-reveal>
-      <a href="/portfolio.html" class="btn-outline mono">← Semua Proyek</a>
-      <a href="/contact.html" class="btn-primary mono">Diskusikan Proyek Serupa</a>
+      <a href="/portfolio.html" class="btn-outline mono">← All Projects</a>
+      <a href="/contact.html" class="btn-primary mono">Discuss Similar Project</a>
     </div>
   `;
+
+  if (hasGallery) {
+    setTimeout(() => initGallery(), 100);
+  }
+}
+
+function initGallery() {
+  const carousel = document.getElementById('galleryCarousel');
+  if (!carousel) return;
+
+  const track = document.getElementById('galleryTrack');
+  const slides = track.querySelectorAll('.gallery-slide');
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  const indexEl = document.getElementById('galleryIndex');
+  const totalEl = document.getElementById('galleryTotal');
+
+  let current = 0;
+  const total = slides.length;
+
+  function updateCarousel() {
+    const offset = -current * 100;
+    track.style.transform = `translateX(${offset}%)`;
+    indexEl.textContent = current + 1;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    current = (current - 1 + total) % total;
+    updateCarousel();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    current = (current + 1) % total;
+    updateCarousel();
+  });
+
+  let touchStart = 0;
+  carousel.addEventListener('touchstart', (e) => {
+    touchStart = e.touches[0].clientX;
+  });
+
+  carousel.addEventListener('touchend', (e) => {
+    const diff = touchStart - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        current = (current + 1) % total;
+      } else {
+        current = (current - 1 + total) % total;
+      }
+      updateCarousel();
+    }
+  });
+
+  updateCarousel();
 }
 
 if (!slug) {

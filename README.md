@@ -1,28 +1,30 @@
-# Studio Arsitektur — Website Portofolio
+# ARCHITEKTA — Architecture Studio Portfolio
 
-Website portofolio arsitektur profesional. Dibangun dengan HTML/CSS/JS murni, Three.js (wireframe 3D untuk hero), dan GSAP (animasi scroll).
+A professional architecture studio portfolio website. Built with vanilla HTML/CSS/JS, Three.js (3D wireframe hero), and GSAP (scroll animations). Modern light theme with an architectural sensibility.
 
-## Struktur Proyek
+## Project Structure
 
 ```
 art-project/
-├── index.html                 # Beranda
-├── services.html              # Layanan (5 jenis arsitektur)
-├── portfolio.html             # Grid portofolio dengan filter
-├── project.html               # Detail proyek (dinamis via ?slug=)
-├── about.html                 # Tentang studio
-├── contact.html               # Formulir kontak
+├── index.html                 # Home
+├── services.html              # Services (5 architecture types)
+├── portfolio.html             # Portfolio grid with filters
+├── project.html               # Project detail (dynamic via ?slug=)
+├── about.html                 # About the studio
+├── contact.html               # Contact form
 ├── vite.config.js
 ├── package.json
 ├── public/
-│   └── favicon.svg
+│   ├── favicon.svg
+│   └── logo.png               # ARCHITEKTA logo
 └── src/
     ├── styles/
-    │   ├── main.css           # Entry (import base/layout/components/pages)
+    │   ├── main.css           # Entry (imports base/layout/components/pages/services)
     │   ├── base.css
     │   ├── layout.css
     │   ├── components.css
-    │   └── pages.css
+    │   ├── pages.css
+    │   └── services.css
     └── js/
         ├── shared.js          # Header + reveal animations
         ├── home.js
@@ -32,30 +34,54 @@ art-project/
         ├── about.js
         ├── contact.js
         └── data/
-            ├── services.js    # Data 5 jenis layanan arsitektur
-            ├── projects.js    # Data proyek portofolio
+            ├── services.js    # 5 architecture service types
+            ├── projects.js    # Portfolio project data
             └── testimonials.js
 ```
 
-## Menjalankan
+## Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Kustomisasi Isi
+## Customizing Content
 
-1. **Data proyek portofolio** — edit `src/js/data/projects.js`
-2. **Kontak & channel** — edit `src/js/contact.js`
-3. **Filosofi & proses kerja** — edit `about.html` dan `src/js/about.js`
-4. **Warna & tipografi** — edit CSS variables di `src/styles/base.css`
+1. **Portfolio projects** — edit `src/js/data/projects.js`
+2. **Contact channels** — edit `src/js/contact.js`
+3. **Philosophy & process** — edit `about.html` and `src/js/about.js`
+4. **Colors & typography** — edit CSS variables in `src/styles/base.css`
 
-## Navigasi
+## Project Data Model
 
-- Beranda → teaser 5 jenis layanan + karya terpilih + pendekatan
-- Layanan → detail setiap jenis arsitektur (residensial, komersial, hospitality, institusional, interior)
-- Portofolio → grid + filter (kategori/gaya/skala) — mendukung URL params
-- Detail Proyek → `project.html?slug=<slug>` dengan fallback empty-state
-- Tentang → filosofi, proses kerja, lingkup layanan
-- Kontak → formulir + FAQ + jam kerja
+Each project in `projects.js` supports a swipeable gallery. Each gallery item is an object with an image and a caption:
+
+```js
+{
+  slug: 'project-name',
+  title: 'Project Name',
+  primaryCategory: 'residential',
+  styles: ['modern-minimalist'],
+  scale: 'medium',
+  location: 'City, Region',
+  year: '2025',
+  heroImage: '/path/to/hero.jpg',
+  conceptDescription: 'Full design explanation...',
+  gallery: [
+    { image: '/path/to/img1.jpg', caption: 'Description for this image' },
+    { image: '/path/to/img2.jpg', caption: 'Description for this image' }
+  ],
+  relatedProjects: [2, 3],
+  featured: true
+}
+```
+
+## Navigation
+
+- Home → service teasers + featured work + approach
+- Services → detailed breakdown per architecture type
+- Portfolio → grid + filters (type/style/scale), supports URL params
+- Project Detail → `project.html?slug=<slug>` with swipeable gallery and full concept description; project cards link here
+- About → philosophy, process, scope of services
+- Contact → form + FAQ + studio hours

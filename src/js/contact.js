@@ -3,10 +3,10 @@ import { initHeader, initRevealAnimations } from './shared.js';
 initHeader();
 
 const channels = [
-  { label: 'Email', value: '', placeholder: 'Belum tersedia' },
-  { label: 'WhatsApp', value: '', placeholder: 'Belum tersedia' },
-  { label: 'Instagram', value: '', placeholder: 'Belum tersedia' },
-  { label: 'LinkedIn', value: '', placeholder: 'Belum tersedia' },
+  { label: 'Email', value: '', placeholder: 'Coming Soon' },
+  { label: 'Phone', value: '', placeholder: 'Coming Soon' },
+  { label: 'Instagram', value: '', placeholder: 'Coming Soon' },
+  { label: 'LinkedIn', value: '', placeholder: 'Coming Soon' },
 ];
 
 const channelsEl = document.getElementById('contactChannels');
@@ -59,18 +59,18 @@ if (form) {
     const message = form.querySelector('#message').value.trim();
 
     if (!name || !email || !service || !message) {
-      note.textContent = 'Mohon lengkapi kolom yang wajib diisi.';
+      note.textContent = 'Please complete all required fields.';
       note.className = 'form-note mono error';
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      note.textContent = 'Format email tidak valid.';
+      note.textContent = 'Please enter a valid email address.';
       note.className = 'form-note mono error';
       return;
     }
 
-    note.textContent = 'Terima kasih. Sistem pengiriman formulir sedang dikonfigurasi — silakan gunakan kanal kontak di samping untuk sementara.';
+    note.textContent = 'Thank you. Form submission system is being configured. Please use the contact channels below to reach us.';
     note.className = 'form-note mono info';
   });
 }

@@ -1,25 +1,25 @@
 export const projects = [];
 
 export const CATEGORIES = {
-  residential: 'Residensial',
-  commercial: 'Komersial',
+  residential: 'Residential',
+  commercial: 'Commercial',
   hospitality: 'Hospitality',
-  institutional: 'Institusional',
-  interior: 'Interior & Renovasi',
+  institutional: 'Institutional',
+  interior: 'Interior & Renovation',
 };
 
 export const STYLES = {
-  'modern-minimalist': 'Modern Minimalis',
-  'tropical-contemporary': 'Tropis Kontemporer',
+  'modern-minimalist': 'Modern Minimalist',
+  'tropical-contemporary': 'Tropical Contemporary',
   'industrial': 'Industrial',
-  'vernacular': 'Vernakular',
-  'sustainable': 'Berkelanjutan',
+  'vernacular': 'Vernacular',
+  'sustainable': 'Sustainable',
 };
 
 export const SCALES = {
-  small: 'Skala Kecil',
-  medium: 'Skala Menengah',
-  large: 'Skala Besar',
+  small: 'Small Scale',
+  medium: 'Medium Scale',
+  large: 'Large Scale',
 };
 
 export function getProjectBySlug(slug) {

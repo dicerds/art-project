@@ -14,7 +14,7 @@ if (servicesGrid) {
       <h3 class="display">${s.title}</h3>
       <p class="service-tagline mono">${s.tagline}</p>
       <p class="service-summary">${s.summary}</p>
-      <span class="service-cta mono">Pelajari →</span>
+      <span class="service-cta mono">Learn More →</span>
     </a>
   `
     )
@@ -29,11 +29,11 @@ if (featuredGrid) {
     featuredGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon mono">◇</div>
-        <h3 class="display">Portofolio dalam Persiapan</h3>
-        <p>Dokumentasi proyek sedang disusun. Sementara ini, Anda dapat mempelajari layanan kami atau menghubungi studio langsung.</p>
+        <h3 class="display">Portfolio In Progress</h3>
+        <p>Project documentation is being prepared. In the meantime, explore our services or reach out to the studio directly.</p>
         <div class="empty-state-actions">
-          <a href="/services.html" class="btn-outline mono">Lihat Layanan</a>
-          <a href="/contact.html" class="btn-link mono">Hubungi Studio →</a>
+          <a href="/services.html" class="btn-outline mono">View Services</a>
+          <a href="/contact.html" class="btn-link mono">Contact Studio →</a>
         </div>
       </div>
     `;
@@ -75,8 +75,8 @@ if (canvas && typeof THREE !== 'undefined') {
   const structure = new THREE.Group();
   scene.add(structure);
 
-  const cAccent = new THREE.Color(0x7fa3c4);
-  const cPaper = new THREE.Color(0xece9e2);
+  const cAccent = new THREE.Color(0x2c3e4f);
+  const cGold = new THREE.Color(0xc5a572);
 
   function vol(w, h, d, x, y, z, color, opacity) {
     const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(w, h, d));
@@ -86,13 +86,13 @@ if (canvas && typeof THREE !== 'undefined') {
   }
 
   [
-    vol(3.2, 1.2, 3.2, 0, -1.4, 0, cPaper, 0.5),
-    vol(2.2, 1.6, 2.2, 0.6, -0.1, 0.3, cAccent, 0.7),
-    vol(1.4, 2.4, 1.4, -0.9, 1.1, -0.4, cPaper, 0.4),
-    vol(0.9, 3.4, 0.9, 1.1, 1.9, -0.9, cAccent, 0.55),
+    vol(3.2, 1.2, 3.2, 0, -1.4, 0, cAccent, 0.55),
+    vol(2.2, 1.6, 2.2, 0.6, -0.1, 0.3, cAccent, 0.85),
+    vol(1.4, 2.4, 1.4, -0.9, 1.1, -0.4, cGold, 0.5),
+    vol(0.9, 3.4, 0.9, 1.1, 1.9, -0.9, cAccent, 0.7),
   ].forEach((v) => structure.add(v));
 
-  const grid = new THREE.GridHelper(20, 20, 0x3a4a5c, 0x22262b);
+  const grid = new THREE.GridHelper(20, 20, 0x2c3e4f, 0xcfcdc7);
   grid.position.y = -2;
   scene.add(grid);
   structure.rotation.y = 0.4;
@@ -156,6 +156,6 @@ if (typeof gsap !== 'undefined') {
     .from('.hero .hero-sub', { opacity: 0, y: 12, duration: 0.8 }, 0.5)
     .from('.hero .hero-actions', { opacity: 0, y: 12, duration: 0.8 }, 0.7)
     .from('.site-header', { opacity: 0, y: -16, duration: 0.8 }, 0.1);
-
-  initRevealAnimations();
 }
+
+initRevealAnimations();

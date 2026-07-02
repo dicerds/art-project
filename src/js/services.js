@@ -31,27 +31,27 @@ if (list) {
 
       <div class="service-body">
         <div class="service-column">
-          <h3 class="service-column-title mono">Cocok untuk audiens</h3>
+          <h3 class="service-column-title mono">Ideal Clients</h3>
           <ul class="service-list">
             ${s.audience.map((a) => `<li>${a}</li>`).join('')}
           </ul>
         </div>
 
         <div class="service-column">
-          <h3 class="service-column-title mono">Yang Anda dapatkan</h3>
+          <h3 class="service-column-title mono">Deliverables</h3>
           <ul class="service-list">
             ${s.deliverables.map((d) => `<li>${d}</li>`).join('')}
           </ul>
         </div>
 
         <div class="service-column">
-          <h3 class="service-column-title mono">Cocok untuk proyek</h3>
+          <h3 class="service-column-title mono">Project Types</h3>
           <p class="service-plain">${s.suitableFor}</p>
 
-          <h3 class="service-column-title mono" style="margin-top:24px;">Estimasi waktu</h3>
+          <h3 class="service-column-title mono" style="margin-top:24px;">Typical Timeline</h3>
           <p class="service-plain">${s.timeline}</p>
 
-          <h3 class="service-column-title mono" style="margin-top:24px;">Gaya yang tersedia</h3>
+          <h3 class="service-column-title mono" style="margin-top:24px;">Design Styles</h3>
           <div class="service-tags">
             ${s.styles.map((st) => `<span class="tag">${STYLES[st] || st}</span>`).join('')}
           </div>
@@ -59,8 +59,8 @@ if (list) {
       </div>
 
       <div class="service-footer">
-        <a href="/portfolio.html?category=${s.category}" class="btn-link mono">Lihat proyek ${s.title} →</a>
-        <a href="/contact.html?service=${s.slug}" class="btn-outline mono">Diskusikan Proyek</a>
+        <a href="/portfolio.html?category=${s.category}" class="btn-link mono">View ${s.title} Projects →</a>
+        <a href="/contact.html?service=${s.slug}" class="btn-outline mono">Discuss Your Project</a>
       </div>
     </article>
   `

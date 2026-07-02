@@ -36,11 +36,17 @@ export function initHeader() {
 }
 
 export function initRevealAnimations() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
   gsap.registerPlugin(ScrollTrigger);
 
   ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 88%',
+    start: 'top 92%',
     onEnter: (els) =>
       gsap.to(els, {
         opacity: 1,

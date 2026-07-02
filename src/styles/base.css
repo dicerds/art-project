@@ -1,18 +1,19 @@
 :root {
-  --bg: #0c0c0d;
-  --bg-soft: #111113;
-  --bg-card: #161618;
-  --bg-elevated: #1a1a1d;
-  --paper: #ece9e2;
-  --paper-dim: #8f8c85;
-  --paper-muted: #5a5853;
-  --accent: #7fa3c4;
-  --accent-dim: #4d6072;
-  --accent-hover: #9bbdd8;
-  --rule: rgba(236, 233, 226, 0.10);
-  --rule-strong: rgba(236, 233, 226, 0.18);
-  --error: #c47f7f;
-  --success: #7fc49b;
+  --bg: #f8f7f5;
+  --bg-soft: #efefec;
+  --bg-card: #e8e6e2;
+  --bg-elevated: #ffffff;
+  --paper: #1a1a1a;
+  --paper-dim: #555555;
+  --paper-muted: #888888;
+  --accent: #2c3e4f;
+  --accent-light: #4a5f75;
+  --accent-hover: #1f2d3a;
+  --gold: #c5a572;
+  --rule: rgba(26, 26, 26, 0.08);
+  --rule-strong: rgba(26, 26, 26, 0.15);
+  --error: #d64545;
+  --success: #45a049;
 }
 
 *,
@@ -41,7 +42,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--bg-elevated);
 }
 
 img {

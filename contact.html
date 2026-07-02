@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kontak — Studio Arsitektur</title>
-  <meta name="description" content="Hubungi studio arsitektur untuk konsultasi proyek Anda.">
+  <title>Contact — ARCHITEKTA</title>
+  <meta name="description" content="Contact ARCHITEKTA for your next architecture project.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,46 +14,48 @@
 <body>
 
   <header class="site-header">
-    <a href="/" class="mark display">STUDIO</a>
+    <a href="/" class="mark display">
+      <img src="/logo.png" alt="ARCHITEKTA">
+    </a>
     <nav>
-      <a href="/services.html">Layanan</a>
-      <a href="/portfolio.html">Portofolio</a>
-      <a href="/about.html">Tentang</a>
-      <a href="/contact.html">Kontak</a>
+      <a href="/services.html">Services</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
     </nav>
     <button class="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </header>
   <div class="mobile-nav">
-    <a href="/">Beranda</a>
-    <a href="/services.html">Layanan</a>
-    <a href="/portfolio.html">Portofolio</a>
-    <a href="/about.html">Tentang</a>
-    <a href="/contact.html">Kontak</a>
+    <a href="/">Home</a>
+    <a href="/services.html">Services</a>
+    <a href="/portfolio.html">Portfolio</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
   </div>
 
   <main>
     <section class="page-hero">
       <div class="breadcrumb mono">
-        <a href="/">Beranda</a>
+        <a href="/">Home</a>
         <span class="sep">/</span>
-        <span>Kontak</span>
+        <span>Contact</span>
       </div>
-      <div class="eyebrow mono">MULAI PERCAKAPAN</div>
-      <h1 class="display">Mari bicara<br>tentang proyek Anda.</h1>
-      <p class="page-hero-sub">Konsultasi awal tidak dikenakan biaya. Isi formulir di bawah — kami akan merespon dalam 2 hari kerja untuk menjadwalkan diskusi lebih lanjut.</p>
+      <div class="eyebrow mono">LET'S TALK</div>
+      <h1 class="display">Ready to build<br>something remarkable?</h1>
+      <p class="page-hero-sub">Free initial consultation. Tell us about your vision, site, budget, and timeline. We'll respond within 2 business days to schedule a discussion.</p>
     </section>
 
     <section class="page-section">
       <div class="contact-layout">
         <div class="contact-info">
-          <h2 class="display">Formulir Konsultasi</h2>
-          <p>Ceritakan visi, lokasi, anggaran, dan timeline yang Anda bayangkan. Semakin lengkap informasi awal, semakin presisi penawaran yang bisa kami siapkan.</p>
+          <h2 class="display">Consultation Form</h2>
+          <p>Share your vision, location, budget parameters, and timeline. The more detail you provide, the more accurate our proposal.</p>
 
           <form class="contact-form" id="contactForm" novalidate>
             <div class="form-group">
-              <label for="name">Nama Lengkap</label>
+              <label for="name">Full Name</label>
               <input type="text" id="name" name="name" required autocomplete="name">
             </div>
 
@@ -63,98 +65,98 @@
                 <input type="email" id="email" name="email" required autocomplete="email">
               </div>
               <div class="form-group">
-                <label for="phone">Nomor Telepon</label>
+                <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" autocomplete="tel">
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="service">Jenis Layanan</label>
+                <label for="service">Service Type</label>
                 <select id="service" name="service" required>
-                  <option value="">— Pilih Layanan —</option>
-                  <option value="residensial">Residensial</option>
-                  <option value="komersial">Komersial</option>
+                  <option value="">— Select Service —</option>
+                  <option value="residential">Residential</option>
+                  <option value="commercial">Commercial</option>
                   <option value="hospitality">Hospitality</option>
-                  <option value="institusional">Institusional</option>
-                  <option value="interior-renovasi">Interior &amp; Renovasi</option>
-                  <option value="lainnya">Belum yakin / Lainnya</option>
+                  <option value="institutional">Institutional</option>
+                  <option value="interior-renovation">Interior & Renovation</option>
+                  <option value="other">Not Sure / Other</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="location">Lokasi Proyek</label>
-                <input type="text" id="location" name="location" placeholder="Kota / Provinsi">
+                <label for="location">Project Location</label>
+                <input type="text" id="location" name="location" placeholder="City / Region">
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="budget">Estimasi Anggaran</label>
+                <label for="budget">Estimated Budget</label>
                 <select id="budget" name="budget">
-                  <option value="">— Opsional —</option>
-                  <option value="&lt;500jt">Kurang dari 500 juta</option>
-                  <option value="500jt-1m">500 juta – 1 milyar</option>
-                  <option value="1-3m">1 – 3 milyar</option>
-                  <option value="3-10m">3 – 10 milyar</option>
-                  <option value="&gt;10m">Lebih dari 10 milyar</option>
-                  <option value="belum-tentu">Belum ditentukan</option>
+                  <option value="">— Optional —</option>
+                  <option value="&lt;100k">Under $100k</option>
+                  <option value="100-500k">$100k – $500k</option>
+                  <option value="500k-1m">$500k – $1M</option>
+                  <option value="1-5m">$1M – $5M</option>
+                  <option value="&gt;5m">Over $5M</option>
+                  <option value="undecided">Undecided</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="timeline">Target Waktu Mulai</label>
+                <label for="timeline">Target Timeline</label>
                 <select id="timeline" name="timeline">
-                  <option value="">— Opsional —</option>
-                  <option value="secepatnya">Secepatnya</option>
-                  <option value="1-3bulan">1 – 3 bulan lagi</option>
-                  <option value="3-6bulan">3 – 6 bulan lagi</option>
-                  <option value="6-12bulan">6 – 12 bulan lagi</option>
-                  <option value="belum-tentu">Belum ditentukan</option>
+                  <option value="">— Optional —</option>
+                  <option value="immediately">ASAP</option>
+                  <option value="1-3months">1 – 3 months</option>
+                  <option value="3-6months">3 – 6 months</option>
+                  <option value="6-12months">6 – 12 months</option>
+                  <option value="undecided">Not Sure</option>
                 </select>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="message">Cerita Singkat tentang Proyek</label>
-              <textarea id="message" name="message" required placeholder="Ceritakan visi, konteks lahan, kebutuhan pengguna, atau referensi visual yang Anda punya."></textarea>
+              <label for="message">Project Brief</label>
+              <textarea id="message" name="message" required placeholder="Tell us about your vision, site context, user needs, or design references."></textarea>
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn-primary mono">Kirim Permintaan</button>
+              <button type="submit" class="btn-primary mono">Send Inquiry</button>
               <span class="form-note mono" id="formNote"></span>
             </div>
           </form>
         </div>
 
         <aside class="contact-side">
-          <h2 class="display">Cara Lain Menghubungi</h2>
-          <p>Selain formulir di samping, Anda dapat menghubungi studio melalui kanal berikut.</p>
+          <h2 class="display">Other Ways to Reach Us</h2>
+          <p>Beyond this form, you can also contact the studio through the channels below.</p>
 
           <div class="contact-channels" id="contactChannels"></div>
 
           <div class="contact-hours">
-            <h3 class="mono">Jam Kerja</h3>
-            <div class="hours-row"><span>Senin – Jumat</span><span>09.00 – 18.00</span></div>
-            <div class="hours-row"><span>Sabtu</span><span>Dengan janji temu</span></div>
-            <div class="hours-row"><span>Minggu / Libur</span><span>Tutup</span></div>
+            <h3 class="mono">Studio Hours</h3>
+            <div class="hours-row"><span>Monday – Friday</span><span>9:00 – 18:00</span></div>
+            <div class="hours-row"><span>Saturday</span><span>By Appointment</span></div>
+            <div class="hours-row"><span>Sunday / Holidays</span><span>Closed</span></div>
           </div>
 
           <div class="contact-faq">
-            <h3 class="mono">Pertanyaan Umum</h3>
+            <h3 class="mono">FAQ</h3>
             <details>
-              <summary>Berapa lama proses desain?</summary>
-              <p>Bervariasi sesuai jenis proyek — rumah tinggal umumnya 4–8 bulan hingga gambar kerja selesai. Detail estimasi diberikan setelah konsultasi awal.</p>
+              <summary>How long does design take?</summary>
+              <p>Duration varies by project type. Residential typically takes 4–8 months to complete drawings. We provide detailed timelines after the initial consultation.</p>
             </details>
             <details>
-              <summary>Apakah studio menerima proyek luar kota?</summary>
-              <p>Ya. Kami menerima proyek di seluruh Indonesia dengan penyesuaian jadwal kunjungan lapangan.</p>
+              <summary>Do you work outside our region?</summary>
+              <p>Yes. We accept projects throughout and can adjust site visit schedules as needed.</p>
             </details>
             <details>
-              <summary>Berapa biaya jasa arsitek?</summary>
-              <p>Biaya jasa dihitung berdasarkan lingkup pekerjaan dan skala proyek, umumnya mengacu pada standar IAI. Detail penawaran diberikan setelah lingkup disepakati.</p>
+              <summary>How much do architectural services cost?</summary>
+              <p>Fees are based on project scope and scale, following professional standards. We provide detailed proposals after understanding your needs.</p>
             </details>
             <details>
-              <summary>Apakah bisa hanya konsultasi tanpa desain lengkap?</summary>
-              <p>Bisa. Kami menyediakan paket konsultasi terpisah — studi kelayakan, second opinion, atau tinjauan desain — sesuai kebutuhan.</p>
+              <summary>Can I hire you for consultation only?</summary>
+              <p>Absolutely. We offer separate consultation packages—feasibility studies, design reviews, or second opinions—tailored to your needs.</p>
             </details>
           </div>
         </aside>
@@ -163,22 +165,22 @@
 
     <footer class="site-footer">
       <div class="footer-col">
-        <span class="footer-title mono">Studio Arsitektur</span>
-        <span class="mono">Desain &amp; Perencanaan Ruang</span>
+        <span class="footer-title mono">ARCHITEKTA</span>
+        <span class="mono">Architecture & Spatial Design</span>
       </div>
       <div class="footer-col">
-        <span class="footer-title mono">Navigasi</span>
-        <a href="/services.html" class="mono">Layanan</a>
-        <a href="/portfolio.html" class="mono">Portofolio</a>
-        <a href="/about.html" class="mono">Tentang</a>
-        <a href="/contact.html" class="mono">Kontak</a>
+        <span class="footer-title mono">Navigate</span>
+        <a href="/services.html" class="mono">Services</a>
+        <a href="/portfolio.html" class="mono">Portfolio</a>
+        <a href="/about.html" class="mono">About</a>
+        <a href="/contact.html" class="mono">Contact</a>
       </div>
       <div class="footer-col">
-        <span class="footer-title mono">Terhubung</span>
-        <a href="/contact.html" class="mono">Kontak Studio</a>
+        <span class="footer-title mono">Connect</span>
+        <a href="/contact.html" class="mono">Get In Touch</a>
       </div>
       <div class="footer-bottom">
-        <span class="mono">© Studio Arsitektur</span>
+        <span class="mono">© ARCHITEKTA Studio</span>
       </div>
     </footer>
   </main>
